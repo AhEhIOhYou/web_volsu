@@ -36,7 +36,7 @@
     <body>
         <main>
             <section class="main-cont">
-                <h1 class="title">Список всех рейсов</h1><br>
+                <h1 class="title">Информация о поезде</h1><br>
                 <?php 
                 
                     try {

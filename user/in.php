@@ -2,6 +2,7 @@
 
     $login = $_POST['login'];
     $pass = $_POST['pass'];
+    $pass = md5($pass."lolItsGettingHard");
 
 
     try {

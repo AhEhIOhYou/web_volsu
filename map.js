@@ -50,7 +50,7 @@ function init() {
         })
         myMap.geoObjects.add(point1).add(point2);
         myMap.geoObjects.add(polyline);
-        document.getElementById("len").innerHTML = "Расстояние - " + num + " км.";
+        document.getElementById("len").innerHTML = "Расстояние - " + num;
                     
     })
 }

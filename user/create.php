@@ -13,6 +13,7 @@
 
     $login = $_POST['login'];
     $pass = $_POST['pass'];
+    $pass = md5($pass."lolItsGettingHard");
 
     function clean20($value = "") {
         $value = preg_replace('/\s/', '', $value);
@@ -61,15 +62,22 @@
             print "Ошибка подключпения к БД!: " . $e->getMessage();
             die();
         }
-
-        $db->prepare("INSERT INTO users_data (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
-                    VALUES(?, ?, ?, ?, ?, ?, ?)")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
-
-        $id = $db->lastInsertId();
+        $log_u = $db->prepare("SELECT count(`login`) FROM `users_data` WHERE `login` = ?");
+        $log_u->execute([$login]);
+        $res = $log_u->fetchColumn();
         
-        $_SESSION['user'] = $id; 
+        if ($res == 1) {
+            echo '<h3>Логин уже занят</h3>';
+        } else {
+            $db->prepare("INSERT INTO users_data (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
+                        VALUES(?, ?, ?, ?, ?, ?, ?)")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
 
-        header('Location:  /index.php');
+            $id = $db->lastInsertId();
+        
+            $_SESSION['user'] = $id; 
+
+            header('Location:  /index.php');
+        }
 
     }
 

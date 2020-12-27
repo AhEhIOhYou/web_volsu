@@ -23,9 +23,7 @@
         $age = $_POST['age'];
 
         $login = $_POST['login'];
-        $pass = $_POST['pass'];
 
-    $login = clean20($login);
     $surName = clean20($surName);
 
 
@@ -36,11 +34,6 @@
 
     if (($login != NULL) && (check_length($login,5,30) === false)) {
         echo "Некорректная длина логина<br>";
-        $end = true;
-    }
-
-    if (($pass != NULL) && (check_length($pass,5,30) === false)) {
-        echo "Некорректная длина пароля<br>";
         $end = true;
     }
 
@@ -69,8 +62,17 @@
             die();
         }
 
-        $db->prepare("INSERT INTO $tableName (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
-                    VALUES( ?, ?, ?, ?, ?, ?, ?);")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
+        //проверка на единственность
+        $log_u = $db->prepare("SELECT count(`login`) FROM `users_data` WHERE `login` = ?");
+        $log_u->execute([$login]);
+        $res = $log_u->fetchColumn();
+        
+        if ($res == 1) {
+            echo '<h3>Логин уже занят</h3>';
+        } else {
+        $db->prepare("INSERT INTO $tableName (`name`,`surname`,`login`,`age`,`tel`,`email`)
+                    VALUES( ?, ?, ?, ?, ?, ?);")->execute([$name, $surName, $login, $age, $tel, $email]);
+        }
 
     }
     } elseif ($tableName === 'trips_data') {
@@ -120,8 +122,6 @@
 
             $db->prepare("INSERT INTO $tableName (`train_id`,`user_id`)
                         VALUES( ?, ?)")->execute([$train_id, $user_id]);
-
-        
     }
     header('Location:  main.php');
 ?>

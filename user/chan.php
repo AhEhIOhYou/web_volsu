@@ -8,7 +8,7 @@
     $end = false;
 
     session_start();
-    if (!isset($_SESSION['useer'])) {
+    if (!isset($_SESSION['user'])) {
         header('Location: lk.index.php');
     }
     
@@ -21,9 +21,7 @@
     $age = $_POST['n_age'];
 
     $login = $_POST['n_login'];
-    $pass = $_POST['n_pass'];
 
-    $login = clean20($login);
 
     $name = clean20($name);
 
@@ -84,10 +82,15 @@
 
     
         if ($login != NULL) {
-            $db->prepare("UPDATE `users_data` SET `login` = ? WHERE `users_data`.`id` = ?;")->execute([$login, $id]);
-        }
-        if ($pass != NULL) {
-            $db->prepare("UPDATE `users_data` SET `pass` = ? WHERE `users_data`.`id` = ?; ")->execute([$pass, $id]);
+            $log_u = $db->prepare("SELECT count(`login`) FROM `users_data` WHERE `login` = ?");
+            $log_u->execute([$login]);
+            $res = $log_u->fetchColumn();
+            
+            if ($res == 1) {
+                echo '<h3>Логин уже занят</h3>';
+            } else {
+                $db->prepare("UPDATE `users_data` SET `login` = ? WHERE `users_data`.`id` = ?;")->execute([$login, $id]);
+            }
         }
     }
     header("Location: lk.index.php");

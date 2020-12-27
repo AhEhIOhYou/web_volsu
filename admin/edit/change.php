@@ -24,9 +24,7 @@
         $age = $_POST['n_age'];
 
         $login = $_POST['n_login'];
-        $pass = $_POST['n_pass'];
 
-        $login = clean20($login);
         $name = clean20($name);
         $surName = clean20($surName);
 
@@ -38,11 +36,6 @@
 
         if (($login != NULL) && (check_length($login,5,30) === false)) {
             echo "Некорректная длина логина<br>";
-            $end = true;
-        }
-
-        if (($pass != NULL) && (check_length($pass,5,30) === false)) {
-            echo "Некорректная длина пароля<br>";
             $end = true;
         }
 
@@ -89,11 +82,18 @@
             }
     
             if ($login != NULL) {
-                $db->prepare("UPDATE $tableName SET `login` = ? WHERE $tableName.`id` = ?;")->execute([$login, $id]);
+
+                $log_u = $db->prepare("SELECT count(`login`) FROM `users_data` WHERE `login` = ?");
+                $log_u->execute([$login]);
+                $res = $log_u->fetchColumn();
+                
+                if ($res == 1) {
+                    echo '<h3>Логин уже занят</h3>';
+                } else {
+                    $db->prepare("UPDATE $tableName SET `login` = ? WHERE $tableName.`id` = ?;")->execute([$login, $id]);
+                }
             }
-            if ($pass != NULL) {
-                $db->prepare("UPDATE $tableName SET `pass` = ? WHERE $tableName.`id` = ?;")->execute([$pass, $id]);
-            }
+            
         }
     } elseif ($tableName === 'trips_data') {
 
