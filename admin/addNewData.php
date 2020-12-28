@@ -57,27 +57,21 @@
                 <?php } if ($tableName === 'city_data') {?>
 
                 <form method="POST" action="add.php" class="reg-form">
+
+                    <h3>Информация о городе</h3>
+                    
                     <input type="text" name="c_name" placeholder="Название" required>
-
-                    <button type="submit">Создать</button>
-                </form> 
-
-                <?php } if ($tableName === 'quarantine_data') {?>
-
-                <form method="POST" action="add.php" class="reg-form">
-                    <input type="text" name="city_id" placeholder="Город" required>
+                    
+                    <h3>COVID info</h3>
+                    
                     <input type="text" name="info" placeholder="Инфо" required>
                     <input type="text" name="relevance" placeholder="Актуальность" required>
-                    <button type="submit">Создать</button>
-                </form> 
-
-                <?php } if ($tableName === 'weather_data') {?>
-
-                <form method="POST" action="add.php" class="reg-form">
-                    <input type="text" name="city_id" placeholder="Город" required>
+                    
+                    <h3>Погода</h3>
                     <input type="text" name="data" placeholder="Инфо" required>
+
                     <button type="submit">Создать</button>
-                </form> 
+                </form>
 
                 <?php } if ($tableName === 'seats_list') {?>
                 

@@ -24,7 +24,7 @@
         $pass = $_POST['pass'];
         $login = $_POST['login'];
         $type = $_POST['type'];
-
+    $pass = md5($pass."lolItsGettingHard");
     $surName = clean20($surName);
 
 
@@ -80,7 +80,8 @@
     
     //ДОБАВЛЯЕМ РЕЙС
     elseif ($tableName === 'trip_list') {
-
+        $tableName;
+        
         $place_from = $_POST['place_from'];
         $time_from = $_POST['time_from'];
         $place_to = $_POST['place_to'];
@@ -88,7 +89,7 @@
         $data_from = $_POST['data_from'];
         $train_id = $_POST['train_id'];
         $price = $_POST['price'];
-
+        
         if($train_id != NULL) {
             if (($train_id < 1) || ($train_id > 10000)) {
                 echo "Некорректный номер поезда<br>";
@@ -149,42 +150,16 @@
         }
 
         $db->prepare("INSERT INTO $tableName (`name`)
-                        VALUES( ? )")->execute([$c_name]);
+                        VALUES( ? )")->execute([$name]);
 
-    } 
-    
-    //ДОБАВЛЯЕМ ИНФУ ПО КОВИДУ
-    elseif ($tableName === 'quarantine_data') {
-        $city_id = $_POST['city_id'];
-        $info = $_POST['info'];
-        $rel = $_POST['relevance'];
+        $_SESSION['data'] = $_POST['data'];
+        $_SESSION['info'] = $_POST['info'];
+        $_SESSION['relevance'] = $_POST['relevance'];
 
-        try {
-            $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
-        } catch (PDOException $e) {
-            print "Ошибка подключпения к БД!: " . $e->getMessage();
-            die();
-        }
+        $id = $db->lastInsertId();
+        $_SESSION['city_id'] = $id; 
 
-        $db->prepare("INSERT INTO $tableName (`city_id`,`info`,`relevance`)
-                        VALUES( ?,?,? )")->execute([$city_id, $info, $rel]);
-} 
-
-//ДОБАВЛЯЕМ ПОГОДУ
-    elseif ($tableName === 'weather_data') {
-        
-        $city_id = $_POST['city_id'];
-        $data = $_POST['data'];
-
-        try {
-            $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
-        } catch (PDOException $e) {
-            print "Ошибка подключпения к БД!: " . $e->getMessage();
-            die();
-        }
-
-        $db->prepare("INSERT INTO $tableName (`city_id`,`data`)
-                        VALUES( ?,? )")->execute([$city_id, $data]);
+        header('Location:  add_city_info.php');
     } 
 
     //ДОБАВЛЯЕМ МЕСТО
@@ -220,9 +195,7 @@
     
         $db->prepare("INSERT INTO $tableName (`type`)
                         VALUES( ? )")->execute([$type]);
-    
+            header('Location:  main.php');    
         } 
 
-    
-    header('Location:  main.php');
 ?>

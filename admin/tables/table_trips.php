@@ -54,7 +54,7 @@
                             echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
                         }
 
-                        echo '<form method="POST" action="../edit/edit_trains.php">
+                        echo '<form method="POST" action="../edit/edit_trips.php">
                                 <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
                               </form>
                                 <form method="POST" action="../delete/delete.php">

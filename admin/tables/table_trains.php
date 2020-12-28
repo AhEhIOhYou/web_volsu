@@ -52,7 +52,7 @@
                                 echo '<div style="width: 90%; padding-left: 5px; outline: 1px black solid;">ОБЫЧНЫЙ</div>';
                             }
 
-                            echo '<form method="POST" action="../edit/edit_users.php">
+                            echo '<form method="POST" action="../edit/edit_train.php">
                                     <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
                             </form>
                             <form method="POST" action="../delete/delete.php">

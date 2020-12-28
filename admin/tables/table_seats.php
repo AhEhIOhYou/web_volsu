@@ -60,7 +60,7 @@
                                 }
                             }
 
-                            echo '<form method="POST" action="../edit/edit_users.php">
+                            echo '<form method="POST" action="../edit/edit_seat.php">
                                     <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
                             </form>
                             <form method="POST" action="../delete/delete.php">

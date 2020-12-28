@@ -41,31 +41,30 @@
                             $arr[$id] = array($row[1],$row[2]);
                         }
                             
-                        foreach($arr as $key => $value)
-                        {
+                        foreach($arr as $key => $value) { ?>
         
-                            echo '<div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
-                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
+                            <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key;?> </div>
 
-                            echo '<div style="width: 60%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
+                                <div style="width: 60%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
 
-                            if ($value[1] == 0 ){
-                                echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Не актуально - 0</div>';
-                            } else {
-                                echo '<div style="width: 30%; padding-left: 5px; outline: 1px black solid;">Актуально - 1</div>';
-                            }
+                                <?php if ($value[1] == 0 ) : ?>
+                                    <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Не актуально - 0</div>
+                                <?php  else : ?>
+                                    <div style="width: 30%; padding-left: 5px; outline: 1px black solid;">Актуально - 1</div>
+                                <?php endif ?>
 
-                            echo '<form method="POST" action="../edit/edit_users.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                            </form>
-                            <form method="POST" action="../delete/delete.php">
-                                <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                            </form>
-                            </div>';
-                        } 
+                                <form method="POST" action="../edit/edit_covid.php">
+                                    <button style="width: 120px;" value="<?php echo $key;?>" name="id">Редактировать</button>    
+                                </form>
 
-                        echo '<div><a href="../addNewData.php">Добавить информацию</a></div>';
-                    ?>
+                                <form method="POST" action="../delete/delete.php">
+                                    <button style="width: 100px;" value="<?php echo $key;?>" name="id">Удалить</button>    
+                                </form>
+                            
+                            </div>
+                        <?php }  ?>
+                        
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

@@ -69,15 +69,14 @@
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Дата</div>
                     </div>
-    
-                    <?php
 
-                        echo '<div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">';                        
-                        echo '<div class="from" data-attr="'.$value[0].'" style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
-                        echo '<div class="to" data-attr="'.$value[1].'" style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[1] . '</div>';
+                    <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
+                        <div class="from" data-attr="<?php echo $value[0]; ?>" style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0];?></div>
+                        <div class="to" data-attr="<?php echo $value[1]; ?>" style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[1]; ?></div>
 
-                        for ($i = 2; $i < count($value) - 1; $i++) {
-                            echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
+                        <?php for ($i = 2; $i < count($value) - 1; $i++) { ?>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                        <?php 
                         }
                         
                         $city_from = $value[0];
@@ -88,9 +87,9 @@
                         $seats_s->execute([$train_id]);
                         $arr_s = array();                        
                         ?>
-                        </div>
+                    </div>
 
-                        <div style="text-align: center;">
+                    <div style="text-align: center;">
                         <form method="POST" action="buy.php">
                             <h3>Выбрать место</h3>
                             <select  name="seat">
@@ -105,9 +104,10 @@
                             </select>
                             <button style="width: 150px; height: 50px" value="<?php echo $train_id ?>" name="key">Купить!</button>
                         </form>
-                        </div>
+                    </div>
 
                         <br><br>
+                        
                         <?php
                         $train = $db-> prepare("SELECT `type` FROM `train_list` WHERE `id` = ?");
                         $train->execute([$value[6]]);
@@ -135,8 +135,8 @@
 
                     }?>
             <div style="display: flex; width: 100%; height: 400px">
-            <div>
-                
+                <div>
+                        
                         <?php
                         echo '<h3 style="padding-left: 80px;">Тип поезда</h3>';
 
@@ -154,13 +154,13 @@
                         echo '<div style="border: 1px black dashed; width: 250px; height: 70px; display:flex; justify-content: center;">';
                         $weather_from = $we_from->fetchColumn();
                         echo '<div style="align-self: center;">';
-                        echo $city_from . " : " . $weather_from;
+                        echo $city_from . ": " . $weather_from;
                         echo '</div></div>';
 
                         echo '<div style="border: 1px black dashed; width: 250px; height: 70px; display:flex; justify-content: center;">';
                         $weather_to = $we_to->fetchColumn();
                         echo '<div style="align-self: center;">';
-                        echo $city_to . " : " . $weather_to;
+                        echo $city_to . ": " . $weather_to;
                         echo '</div></div>';
 
                         echo '<h3 style="padding-left: 95px;">COVID</h3>';
@@ -171,13 +171,13 @@
                         echo '<div style="align-self: center;">';
                         echo $city_to . " : " . $cov;
                         if ($rel == 1) {
-                            echo '<br>Актуально';
+                            echo '<br>Статус: Актуально';
                         } else {
-                            echo '<br>Не Актуально';
+                            echo '<br>Статус: Не Актуально';
                         }
                         echo '</div></div>';
-                ?>
-            </div>
+                        ?>
+                </div>
                 <div id="map" style="width: 100%; height: 400px; padding-left: 50px;"></div>
             </div>
                 <h3><a href="trips_list.php">Назад</a></h3>

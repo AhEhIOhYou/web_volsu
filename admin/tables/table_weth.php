@@ -48,7 +48,7 @@
 
                             echo '<div style="width: 80%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
 
-                            echo '<form method="POST" action="../edit/edit_users.php">
+                            echo '<form method="POST" action="../edit/edit_weth.php">
                                     <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
                             </form>
                             <form method="POST" action="../delete/delete.php">
@@ -57,7 +57,6 @@
                             </div>';
                         } 
 
-                        echo '<div><a href="../addNewData.php">Добавить погоду</a></div>';
                     ?>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
