@@ -1,3 +1,4 @@
+<?php require_once 'log.php';?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -20,7 +21,7 @@
                     <button class="lk_bttn">Войти</button>
                 </form>
             <?php 
-                    } else {
+                    } else { my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -trip_all_info.php-');
             ?>
                 <form class="lk-item" action="user/lk.index.php" method="GET">
                     <button class="lk_bttn">Личный кабинет</button>
@@ -43,6 +44,7 @@
                         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
                     } catch (PDOException $e) {
                         print "Ошибка подключпения к БД!: " . $e->getMessage();
+                        my_log('Ошибка подключения к бд -  ' . $e->getMessage());
                         die();
                     }
 

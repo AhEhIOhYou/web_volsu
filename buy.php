@@ -1,9 +1,11 @@
+<?php require_once 'log.php';?>
 <?php 
     session_start();
     unset($_SESSION['table']);
     if(!isset($_SESSION['user'])) {
         header('Location:  /user/lk.login.php');
     }
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -buy.php-');
 
     $id_train = $_POST['key']; //1
     $seat = $_POST['seat']; //4
@@ -14,6 +16,7 @@
         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
     } catch (PDOException $e) {
         print "Ошибка подключпения к БД!: " . $e->getMessage();
+        my_log('Ошибка подключения к бд -  ' . $e->getMessage());
         die();
     }
 
@@ -32,10 +35,13 @@
         $db->prepare("INSERT INTO `order_list` (`trip_id`,`seat_number`,`user_id`)
                         VALUES(?, ?, ?)")->execute([$trip_id, $id_seat, $id_user]);
         
+        $id = $db->lastInsertId();
+        
         unset($_SESSION['trip']);
 
         $db->prepare("UPDATE `seats_list` SET `state` = ? WHERE `train_id` = ? AND `id` = ?")->execute([1,$id_train,$id_seat]);
-
+        
+        my_log('Пользователь id = ' . $_SESSION['user'] . ' совершил заказ id = ' . $id);
 
         echo "<h1>Успешно!</h1>";
         echo '<a href="/index.php">На главную</a>';

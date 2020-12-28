@@ -1,3 +1,4 @@
+<?php require_once 'log.php';?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -18,7 +19,7 @@
                     <button class="lk_bttn">Войти</button>
                 </form>
             <?php 
-                    } else {
+                    } else { my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -search.php-');
             ?>
                 <form class="lk-item" action="user/lk.index.php" method="GET">
                     <button class="lk_bttn">Личный кабинет</button>
@@ -44,12 +45,15 @@
                         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
                     } catch (PDOException $e) {
                         print "Ошибка подключпения к БД!: " . $e->getMessage();
+                        my_log('Ошибка подключения к бд -  ' . $e->getMessage());
                     die();
                     }
                     $query = $_POST['query'];
                     $query = trim($query);
                     $query = htmlspecialchars($query);
                     if (!empty($query))  { 
+
+                        my_log('Поиск: -' . $query . '-');
 
                         $train_q = $db->prepare("SELECT * FROM trip_list WHERE (place_from LIKE ? OR place_to LIKE ?)");
                         $train_q->execute(["%$query%", "%$query%"]);
@@ -86,11 +90,18 @@
                                     </form>
 
                                     </div><br><br>'; 
-                        }} else {
+                                    
+                            }
+                            my_log('Успешный поиск: -' . $query . '-');
+                        } else {
                             echo '<p>Ничего не найдено!</p>';
+                            my_log('Ничего не найдено: -' . $query . '-');
                         }}
                         else {
                             echo '<p>Задан пустой поисковый запрос.</p>';
+                            
+                            $log = 'Пустой поиск';
+                            my_log($log);
                         } 
                     ?>
                     <h3><a href="index.php">Назад</a></h3>
