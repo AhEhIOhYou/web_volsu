@@ -8,7 +8,7 @@
     $end = false;
 
     session_start();
-    if (!isset($_SESSION['useer'])) {
+    if (!isset($_SESSION['user'])) {
         header('Location: lk.index.php');
     }
     
