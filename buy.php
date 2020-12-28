@@ -15,10 +15,12 @@
         die();
     }
     
-    $isorder = $db->query("SELECT COUNT(`train_id`) as count FROM `orders` 
-                        WHERE `user_id` = $id_user AND `train_id` = $id_train")->fetchColumn();
+    $isorder = $db->prepare("SELECT COUNT(`train_id`) as count FROM `orders` 
+                        WHERE `user_id` = $id_user AND `train_id` = $id_train");
+    $isorder->execute([$id_user,$id_train]);
+    $ord = $isorder->fetchColumn();
 
-    if ($isorder > 0) {
+    if ($ord > 0) {
         echo '<h1>Билет уже был вами приобретен</h1>';
         echo '<a href="trainList.php">К списку</a>';
     } else {
