@@ -1,5 +1,5 @@
 <?php
-    $deleteTrainId = $_POST['key'];
+    $deleteTrainId = $_POST['key_id'];
     session_start();
     $user = $_SESSION['user'];
 
