@@ -24,10 +24,14 @@ session_start();
                 </div>
                         <?php
 
+                            require_once '../log.php';
+                            my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -lk.edit.php-');
+
                             try {
                                 $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
                             } catch (PDOException $e) {
                                 print "Ошибка подключпения к БД!: " . $e->getMessage();
+                                my_log('Ошибка подключения к бд -  ' . $e->getMessage());
                                 die();
                             }
 

@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_covid.php-');
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +29,7 @@
                     die();
                 }
 
-                    $orders = $db->prepare("SELECT * FROM $tableName WHERE `city_id` = ?");
+                    $orders = $db->prepare("SELECT * FROM $tableName WHERE `city_name` = ?");
                     $orders->execute([$id]);
                     while($row = $orders->fetch(PDO::FETCH_ASSOC)) {
                         $id = array_shift($row);
@@ -40,7 +43,7 @@
                 
                 <h1>COVID:</h1>
                 <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id города</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Город</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Инфа</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Актуальность</div>
     
@@ -58,7 +61,7 @@
 
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="text" name="n_info" placeholder="информация">
+                    <input type="text" name="n_info" placeholder="Информация">
                     <input type="number" name="n_relevance" placeholder="актуальность">
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 

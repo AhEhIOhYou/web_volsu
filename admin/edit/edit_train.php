@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_train.php-');
 ?>
 
 <!DOCTYPE html>
@@ -42,13 +45,15 @@
                 <h1>Поезд: <?php echo $id; ?></h1>
                 <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
                         <div style="width: 10%; padding-left: 5px; outline: 1px black solid;">id</div>
-                        <div style="width: 90%; padding-left: 5px; outline: 1px black solid;">Тип</div>
+                        <div style="width: 60%; padding-left: 5px; outline: 1px black solid;">Тип</div>
+                        <div style="width: 30%; padding-left: 5px; outline: 1px black solid;">Номер</div>
     
                     </div>
 
                     <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
                         <div style="width: 10%; padding-left: 5px; outline: 1px black solid;"><?php echo $id; ?></div>
-                        <div style="width: 90%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['type']; ?></div>
+                        <div style="width: 60%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['type']; ?></div>
+                        <div style="width: 30%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['number']; ?></div>
                     </div>
 
 
@@ -57,7 +62,8 @@
 
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="number" name="n_type" placeholder="тип">
+                    <input type="number" name="n_type" placeholder="Тип">
+                    <input type="number" name="n_number" placeholder="Номер">
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 
 

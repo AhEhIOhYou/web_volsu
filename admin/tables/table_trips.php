@@ -45,6 +45,10 @@
                         $id = array_shift($row);
                         $arr[$id] = array($row[1],$row[3],$row[2],$row[4],$row[6],$row[5],$row[7]);
                     }
+
+                    if (empty($arr)) {
+                        echo '<h3>Рейсов нет</h3>';
+                    } else {
                 
                     foreach($arr as $key => $value)
                     {
@@ -62,7 +66,7 @@
                                 </form>
                         </div>';
                         } 
-
+                    }
                         echo '<div><a href="../addNewData.php">Добавить рейс</a></div>';
                     ?>
                 <h3><a href="../main.php">Назад   </a></h3>

@@ -7,9 +7,9 @@
     }
     my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -buy.php-');
 
-    $id_train = $_POST['key']; //1
-    $seat = $_POST['seat']; //4
-    $id_user = $_SESSION['user']; //2
+    $id_train = $_POST['key_train_id'];
+    $seat = $_POST['seat'];
+    $id_user = $_SESSION['user'];
 
 
     try {

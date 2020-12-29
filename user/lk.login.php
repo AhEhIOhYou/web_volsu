@@ -8,6 +8,8 @@
     <body>
     <?php   session_start();
             if (!isset($_SESSION['user'])) : 
+                require_once '../log.php';
+                my_log('Не автор. пользователь на странице -lk.login.php-');
     ?>
     <div class="forms-box">
     <div class="form-item">

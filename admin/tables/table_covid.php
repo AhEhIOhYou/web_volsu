@@ -26,7 +26,7 @@
         
                     ?>
                     <div style="display: flex; width: 400px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id города</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Город</div>
                         <div style="width: 60%; padding-left: 5px; outline: 1px black solid;">Информация</div>
                         <div style="width: 30%; padding-left: 5px; outline: 1px black solid;">Актуальность</div>
                     </div>
@@ -40,6 +40,10 @@
                             
                             $arr[$id] = array($row[1],$row[2]);
                         }
+
+                        if (empty($arr)) {
+                            echo '<h3>Информации нет</h3>';
+                        } else {
                             
                         foreach($arr as $key => $value) { ?>
         
@@ -63,7 +67,8 @@
                                 </form>
                             
                             </div>
-                        <?php }  ?>
+                        <?php }
+                        }  ?>
                         
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>

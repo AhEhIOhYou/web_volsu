@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_seat.php-');
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +64,16 @@
 
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="number" name="n_train_id" placeholder="id поезда">
+                    <select  name="n_train_id">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `train_list`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <input type="number" name="n_number" placeholder="номер">
                     <input type="number" name="n_state" placeholder="состояние">
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>

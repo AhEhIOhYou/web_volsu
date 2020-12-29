@@ -9,19 +9,27 @@
         <main>
         <?php 
             session_start();
-            if (isset($_SESSION['user'])) : ?>
+            if (!isset($_SESSION['user'])) {
+                header('Location: /index.php');
+            } ?>
+            
             <div  class="title">
                 <h1>Ваш личный кабинет</h1>
             </div>
+
             <section class="main-settings">
                 <div class="set-box">
                 <p class="description">Здесь вы можете настроить свои персональные данные</p>
                 <?php
 
+                    require_once '../log.php';
+                    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -lk.index.php-');
+
                     try {
                         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
                     } catch (PDOException $e) {
                         print "Ошибка подключпения к БД!: " . $e->getMessage();
+                        my_log('Ошибка подключения к бд -  ' . $e->getMessage());
                         die();
                     }
                     
@@ -44,55 +52,51 @@
                         $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[6],$row[5],$row[7]);
                     }
 
-                    if (!empty($arr)) {
-                        echo "<h3>Ваши купленные билеты</h3>";
-                        echo '<div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Откуда</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Куда</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время отправления</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Дата</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Место</div>
-                    </div>';
-                    
-                    foreach ($arr as $key => $value) {
-                        echo '<div style="display: flex; width: 1450px; height: 20px; border: 1px black solid;">';
+                    if (!empty($arr)) { ?>
+                    <h3>Ваши купленные билеты</h3>
+                    <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Откуда</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Куда</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время отправления</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Дата</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Место</div>
+                    </div>
+                    <?php
+                    foreach ($arr as $trip_id => $value) : ?>
+                        <div style="display: flex; width: 1450px; height: 20px; border: 1px black solid;">
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[6];?></div>
+                           
+                           <?php for ($i = 0; $i < count($value) - 1; $i++) { ?>
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i];?></div>
+                            <?php }
+                                //запрос на получение места
+                                $s_a = $db->prepare("SELECT `seats_list`.`number` FROM `seats_list`,`order_list` 
+                                                        WHERE `order_list`.`trip_id` = ? AND `order_list`.`user_id` = ?
+                                                        AND `order_list`.`seat_number` = `seats_list`.`id`");
+                                $s_a->execute([$trip_id,$user]);
+                                $seat = $s_a->fetchColumn();
+                            ?>
 
-                        echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[6]. '</div>';
-                            for ($i = 0; $i < count($value) - 1; $i++) {
-                                echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                            }
-                            //запрос на получение места
-                            $s_a = $db->prepare("SELECT `seats_list`.`number` FROM `seats_list`,`order_list` 
-                                                    WHERE `order_list`.`trip_id` = ? AND `order_list`.`user_id` = ?
-                                                    AND `order_list`.`seat_number` = `seats_list`.`id`");
-                            $s_a->execute([$key,$user]);
-                            $seat = $s_a->fetchColumn();
-
-                        echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $seat. '</div>';
-                        echo '<form method="POST" action="../../trip_all_info.php">
-                                <button style="width: 100px;" value="' . $key . '" name="key">О маршруте</button>
-                            </form>';
-                        echo '<form method="POST" action="../../sell.php">
-                                <button style="width: 150px;" value="' . $key . '" name="key">Отменить покупку!</button>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $seat;?></div>
+                            <form method="POST" action="../../trip_all_info.php">
+                                <button style="width: 100px;" value="<?php echo $trip_id; ?>" name="trip_id">О маршруте</button>
                             </form>
-                        </div>'; 
-                    }
-                    }
-                    
-
-                    ?>
-                    <p>Приветсвуем, <?php echo $name?>!</p>
+                            <form method="POST" action="../../sell.php">
+                                <button style="width: 150px;" value="<?php echo $trip_id; ?>" name="trip_id">Отменить покупку!</button>
+                            </form>
+                        </div>
+                    <?php endforeach;
+                    }?>
+                    <p>Приветсвуем, <?php echo $name;?>!</p>
                     <p>Чтобы удалить свой аккаунт нажмите <a href="lk.delete.php">сюда</a><br>
                     Для редактированния данных аккаунта перейдите <a href="lk.edit.php">сюда</a><br>
                     Чтобы выйти нажмите <a  href="lk.logout.php">здесь</a><br>
                     Чтобы перейти на главную нажмите <a href="/index.php">здесь</a><br><br>
                 </div>
             </section>
-            <?php else:  header('Location: /index.php'); ?>
-            <?php endif ?>
         </main>
     </body>
 </html>

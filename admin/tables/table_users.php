@@ -43,6 +43,9 @@
                             //немного намудрили с расстановкой строк
                             $arr[$id] = array($row[1], $row[2], $row[5], $row[3], $row[6]);
                         }
+                        if (empty($arr)) {
+                            echo '<h3>Пользователей нет</h3>';
+                        } else {
                             
                         foreach($arr as $key => $value)
                         {
@@ -65,12 +68,12 @@
                             echo '<form method="POST" action="../edit/edit_users.php">
                                     <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
                             </form>
-                            <form method="POST" action="../delete/user.php">
+                            <form method="POST" action="../delete/delete.php">
                                 <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
                             </form>
                             </div>';
                         } 
-
+                    }
                         echo '<div><a href="../addNewData.php">Добавить пользователя</a></div>';
                     ?>
                 <h3><a href="../main.php">Назад   </a></h3>

@@ -12,20 +12,22 @@
 
             <?php
                     session_start();
-                    if (!isset($_SESSION['user'])) { 
+                    if (!isset($_SESSION['user'])) :
+                         my_log('Не автор. пользователь на странице -trips_list.php-');
             ?>
 
                 <form class="lk-item" action="user/lk.login.php" method="GET">
                     <button class="lk_bttn">Войти</button>
                 </form>
             <?php 
-                    } else { my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -trips_list.php-');
+                    else :
+                         my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -trips_list.php-');
             ?>
                 <form class="lk-item" action="user/lk.index.php" method="GET">
                     <button class="lk_bttn">Личный кабинет</button>
                 </form>
 
-            <?php } ?>
+            <?php endif; ?>
 
                 <form class="lk-item" action="user/lk.create.php" method="GET">
                     <button class="lk_bttn">Регистрация</button>
@@ -53,7 +55,10 @@
                         $id = array_shift($row);
                         $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7]);
                     }
-                    foreach($arr as $key => $value) {?>
+                    if (empty($arr)) {
+                        echo '<h3>Билетов нет!</h3>';
+                    } else {
+                    foreach($arr as $key => $value) :?>
 
                     <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Откуда</div>
@@ -64,23 +69,19 @@
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
                     </div>
-    
-                    <?php
 
-                        echo '<div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">';
-                            for ($i = 0; $i < count($value); $i++) {
-                                echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                            }
+                    <div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">
+                            <?php for ($i = 0; $i < count($value); $i++) : ?>
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                            <?php endfor;?>
 
-                            echo '<form method="POST" action="trip_all_info.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="key">Подробнее</button>    
+                            <form method="POST" action="trip_all_info.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="trip_id">Подробнее</button> 
                                 </form>
 
-                        </div><br><br>'; 
-                    }
-                ?>
+                    </div><br><br>
+                <?php    endforeach; }?>
                 <h3><a href="index.php">На главную</a></h3>
-
             </section>
         </main>
     </body>

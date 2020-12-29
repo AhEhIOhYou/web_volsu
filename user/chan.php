@@ -1,5 +1,5 @@
 <?php
-
+    
     function clean20($value = "") {
         $value = preg_replace('/\s/', '', $value);
         return $value;
@@ -11,6 +11,8 @@
     if (!isset($_SESSION['user'])) {
         header('Location: lk.index.php');
     }
+    require_once '../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -сhan.php-');
     
     $id = $_SESSION['user'];
     $name = $_POST['n_name'];
@@ -48,6 +50,7 @@
     }
 
     if ($end === true) {
+        my_log('Пользователь id = ' . $_SESSION['user'] . ' допусти ошибку в изменении данных');
         die("Ошибка!");
     } 
     else {
@@ -55,19 +58,23 @@
             $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
         } catch (PDOException $e) {
             print "Ошибка подключпения к БД!: " . $e->getMessage();
+            my_log('Ошибка подключения к бд -  ' . $e->getMessage());
             die();
         }
 
         if ($name != NULL) {
             $db->prepare("UPDATE `user_list` SET `name` = ? WHERE `user_list`.`id` = ?")->execute([$name, $id]);
+            my_log('Пользователь id = ' . $_SESSION['user'] . ' изменл name (user_list) на' . $name);
             header("Location: lk.index.php");
         }
         if ($surName != NULL) {
             $db->prepare("UPDATE `user_list` SET `surname` = ? WHERE `user_list`.`id` = ?")->execute([$surName, $id]);
+            my_log('Пользователь id = ' . $_SESSION['user'] . ' изменл surName (user_list) на' . $surName);
             header("Location: lk.index.php");
         } 
         if ($email != NULL) {
             $db->prepare("UPDATE `user_list` SET `email` = ? WHERE `user_list`.`id` = ?")->execute([$email, $id]);
+            my_log('Пользователь id = ' . $_SESSION['user'] . ' изменл email (user_list) на' . $email);
             header("Location: lk.index.php");
         }
 
@@ -81,6 +88,7 @@
         } else {
             if ($login != NULL) {
                 $db->prepare("UPDATE `user_list` SET `login` = ? WHERE `user_list`.`id` = ?;")->execute([$login, $id]);
+                my_log('Пользователь id = ' . $_SESSION['user'] . ' изменл login (user_list) на' . $login);
                 header("Location: lk.index.php");
             }
         }

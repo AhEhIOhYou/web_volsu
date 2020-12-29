@@ -1,5 +1,5 @@
 <?php
-
+    require_once '../log.php';
     $login = $_POST['login'];
     $pass = $_POST['pass'];
 
@@ -9,6 +9,7 @@
         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
     } catch (PDOException $e) {
         print "Ошибка подключпения к БД!: " . $e->getMessage();
+        my_log('Ошибка подключения к бд -  ' . $e->getMessage());
         die();
     }
 
@@ -38,6 +39,7 @@
         $_SESSION['user'] = $user_id;
     }
 
+    my_log('Пользователь  залогинился с id = ' . $_SESSION['user'] . ' и типом = ' . $user_type);
 
     header('Location: /index.php');
  

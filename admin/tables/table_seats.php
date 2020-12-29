@@ -27,7 +27,7 @@
                     ?>
                     <div style="display: flex; width: 780px; height: 20px; border: 1px black solid;">
                         <div style="width: 4%; padding-left: 5px; outline: 1px black solid;">ID</div>
-                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
+                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id поезда</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Собст. номер</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Состояние</div>
                     </div>
@@ -41,6 +41,10 @@
                             
                             $arr[$id] = array($row[1], $row[2], $row[3]);
                         }
+
+                        if (empty($arr)) {
+                            echo '<h3>Мест нет</h3>';
+                        } else {
                             
                         foreach($arr as $key => $value)
                         {
@@ -68,6 +72,7 @@
                             </form>
                             </div>';
                         } 
+                    }
 
                         echo '<div><a href="../addNewData.php">Добавить место</a></div>';
                     ?>

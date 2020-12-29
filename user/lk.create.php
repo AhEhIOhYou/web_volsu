@@ -1,3 +1,7 @@
+
+<?php require_once '../log.php';
+      my_log('Не автор. пользователь на странице -lk.create.php-');
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>

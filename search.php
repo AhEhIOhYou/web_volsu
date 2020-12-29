@@ -86,7 +86,7 @@
                                     }
 
                                     echo '<form method="POST" action="trip_all_info.php">
-                                        <button style="width: 120px;" value="' . $key . '" name="key">Подробнее</button>    
+                                        <button style="width: 120px;" value="' . $key . '" name="trip_id">Подробнее</button>    
                                     </form>
 
                                     </div><br><br>'; 

@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_city.php-');
 ?>
 
 <!DOCTYPE html>

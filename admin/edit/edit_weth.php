@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_weth.php-');
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +29,7 @@
                     die();
                 }
 
-                    $orders = $db->prepare("SELECT * FROM $tableName WHERE `city_id` = ?");
+                    $orders = $db->prepare("SELECT * FROM $tableName WHERE `city_name` = ?");
                     $orders->execute([$id]);
                     while($row = $orders->fetch(PDO::FETCH_ASSOC)) {
                         $id = array_shift($row);
@@ -40,8 +43,8 @@
                 
                 <h1>Погода:</h1>
                 <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id города</div>
-                        <div style="width: 80%; padding-left: 5px; outline: 1px black solid;">Тип</div>
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Город</div>
+                        <div style="width: 80%; padding-left: 5px; outline: 1px black solid;">Погода</div>
     
                     </div>
 

@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_order.php-');
 ?>
 
 <!DOCTYPE html>
@@ -61,9 +64,36 @@
 
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="number" name="n_trip_id" placeholder="id рейса">
-                    <input type="number" name="n_seat_number" placeholder="id места">
-                    <input type="number" name="n_user_id" placeholder="id пользователя">
+                    <select  name="n_trip_id">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `trip_list`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
+                    <select  name="n_seat_number">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `seats_list`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
+                    <select  name="n_user_id">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `user_list`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 
 

@@ -39,6 +39,10 @@
                             
                             $arr[$id] = array($row[1]);
                         }
+
+                        if (empty($arr)) {
+                            echo '<h3>Городов нет</h3>';
+                        } else {
                             
                         foreach($arr as $key => $value)
                         {
@@ -56,8 +60,9 @@
                             </form>
                             </div>';
                         } 
-
-                        echo '<div><a href="../addNewData.php">Добавить город</a></div>';
+                    }
+                        echo '<div><a href="../addNewData.php">Добавить город</a></div>' ;
+                    
                     ?>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>

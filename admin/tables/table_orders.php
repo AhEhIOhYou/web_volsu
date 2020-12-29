@@ -41,6 +41,10 @@
                             
                             $arr[$id] = array($row[1], $row[2], $row[3]);
                         }
+
+                        if (empty($arr)) {
+                            echo '<h3>Заказов нет</h3>';
+                        } else {
                             
                         foreach($arr as $key => $value)
                         {
@@ -60,8 +64,9 @@
                             </form>
                             </div>';
                         } 
-
+                    }
                         echo '<div><a href="../addNewData.php">Добавить заказ</a></div>';
+                    
                     ?>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>

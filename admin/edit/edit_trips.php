@@ -3,6 +3,9 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    require_once '../../log.php';
+    my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_trips.php-');
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +61,7 @@
                     <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['place_to']; ?></div>
                     <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['time_to']; ?></div>
                     <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['data_from']; ?></div>
-                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['train_id']; ?></div>
+                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['train_number']; ?></div>
                     <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['price']; ?></div>
                 </div>
 
@@ -68,12 +71,39 @@
 
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="text" name="n_place_from" placeholder="Откуда">
-                    <input type="text" name="n_place_to" placeholder="Куда">
+                    <select  name="n_place_from">
+                            <?php
+                            $f_all = $db->query("SELECT `name` FROM `city_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
+                    <select  name="n_place_to">
+                            <?php
+                            $f_all = $db->query("SELECT `name` FROM `city_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <input type="text" name="n_time_from" placeholder="Время отправления">
                     <input type="text" name="n_time_to" placeholder="Время прибытия">
                     <input type="text" name="n_data_from" placeholder="Дата">
-                    <input type="text" name="n_train_id" placeholder="Поезд">
+                    <select  name="n_train_number">
+                            <?php
+                            $f_all = $db->query("SELECT `number` FROM `train_list`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <input type="number" name="n_price" placeholder="Цена">
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 

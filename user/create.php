@@ -1,9 +1,11 @@
 <?php
+
     session_start();
     if (isset($_SESSION['user'])) {
         unset($_SESSION['user']);
     }
-
+    require_once '../log.php';
+    my_log('Не автор. пользователь на странице -create.php-');
 
     $name = $_POST['name'];
     $surName = $_POST['surname'];
@@ -55,6 +57,7 @@
             $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
         } catch (PDOException $e) {
             print "Ошибка подключпения к БД!: " . $e->getMessage();
+            my_log('Ошибка подключения к бд -  ' . $e->getMessage());
             die();
         }
 
@@ -74,6 +77,8 @@
             $id = $db->lastInsertId();
         
             $_SESSION['user'] = $id; 
+
+            my_log('Пользователь id = ' . $_SESSION['user'] . ' создан');
 
             header('Location:  /index.php');
         }
