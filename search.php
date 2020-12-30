@@ -49,7 +49,7 @@
                     $query = $_POST['query'];
                     $query = trim($query);
                     $query = htmlspecialchars($query);
-                    if (!empty($query))  { 
+                    if (!empty($query))  :
                         $train_q = $db->prepare("SELECT * FROM trips_data WHERE (place_from LIKE ? OR place_to LIKE ?)");
                         $train_q->execute(["%$query%", "%$query%"]);
                         while($row = $train_q->fetch(PDO::FETCH_BOTH)) {
@@ -57,9 +57,9 @@
                             $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[5]);
                         }
                         
-                        if (!empty($arr)) {
+                        if (!empty($arr)) :
                             echo '<h3>Найдено:</h3>';
-                            foreach($arr as $key => $value) {?>
+                            foreach($arr as $key => $value) :?>
 
                                 <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
                                     <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
@@ -85,12 +85,12 @@
                                     </form>
 
                                     </div><br><br>'; 
-                        }} else {
+                                endforeach;
+                            else :
                             echo '<p>Ничего не найдено!</p>';
-                        }}
-                        else {
+                        endif; else :
                             echo '<p>Задан пустой поисковый запрос.</p>';
-                        } 
+                        endif; 
                     ?>
                     <h3><a href="index.php">Назад</a></h3>
             </script>

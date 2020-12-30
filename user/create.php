@@ -47,7 +47,6 @@
     if ($end === true) {
         die("Ошибка!");
     } else {
-        
         try {
             $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
         } catch (PDOException $e) {
@@ -55,17 +54,26 @@
             die();
         }
 
-        $pass = md5($pass."lolItsGettingHard");
-
-        //создаем запись и заполняем
-        $db->prepare("INSERT INTO users_data (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
-                    VALUES(?, ?, ?, ?, ?, ?, ?)")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
-        //сразу авторизуем
-        $id = $db->lastInsertId();
+            $log_u = $db->prepare("SELECT count(`login`) FROM `users_data` WHERE `login` = ?");
+            $log_u->execute([$login]);
+            $res = $log_u->fetchColumn();
+            
+            if ($res == 1) {
+                echo '<h3>Логин уже занят</h3>';
+            } else {
         
-        $_SESSION['user'] = $id; 
-
-        header('Location:  /index.php');
+                $pass = md5($pass."lolItsGettingHard");
+        
+                //создаем запись и заполняем
+                $db->prepare("INSERT INTO users_data (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
+                            VALUES(?, ?, ?, ?, ?, ?, ?)")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
+                //сразу авторизуем
+                $id = $db->lastInsertId();
+                
+                $_SESSION['user'] = $id; 
+        
+                header('Location:  /index.php');
+            }
 
     }
 
