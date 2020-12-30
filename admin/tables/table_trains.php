@@ -20,6 +20,12 @@
                     $tableName = 'train_list';
                     $_SESSION['table'] = $tableName;
 
+                    if (isset($_GET['train_id'])) {
+                        $ch_id = $_GET['train_id'];
+                    } else {
+                        $ch_id = -1;
+                    }
+
                     echo "<h1>Поезда</h1>";
 
                     try {
@@ -52,7 +58,12 @@
                         foreach($arr as $key => $value) : ?>
         
                             <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
-                                <div style="width: 10%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php if ($key == $ch_id) :?>
+                                    <div style="width: 10%; padding-left: 5px; outline: 3px red solid;"><?php echo $key; ?></div>
+                                <?php else :?>
+                                    <div style="width: 10%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php endif;?>
+
                                 <div style="width: 30%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[1]; ?></div>
 
                                 <?php if ($value[0] == 1) {

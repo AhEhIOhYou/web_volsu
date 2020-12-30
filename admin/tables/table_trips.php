@@ -20,6 +20,12 @@
                     $tableName = 'trip_list';
                     $_SESSION['table'] = $tableName;
 
+                    if (isset($_GET['trip_id'])) {
+                        $ch_id = $_GET['trip_id'];
+                    } else {
+                        $ch_id = -1;
+                    }
+
                     echo "<h1>Рейсы</h1>";
                         
                     try {
@@ -56,11 +62,17 @@
                     else :
                     foreach($arr as $key => $value) : ?>
                         <div style="display: flex; width: 1220px; height: 20px; border: 1px black solid;">
-                            <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                            <?php if ($key == $ch_id) :?>
+                                <div style="width: 4%; padding-left: 5px; outline: 3px red solid;"><?php echo $key; ?></div>
+                            <?php else :?>
+                                <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                            <?php endif;?>
                             
-                            <?php for ($i = 0; $i < count($value); $i++) : ?>
+                            <?php for ($i = 0; $i < count($value) - 1; $i++) : ?>
                                 <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
                             <?php endfor; ?>
+
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><a href="table_trains.php?train_id=<?php echo $value[6]; ?>"><?php echo $value[6]; ?></a></div>
 
                             <form method="POST" action="../edit/edit_trips.php">
                                 <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    

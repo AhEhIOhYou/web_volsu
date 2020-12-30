@@ -54,9 +54,11 @@
                         foreach($arr as $key => $value) :?>        
                             <div style="display: flex; width: 800px; height: 20px; border: 1px black solid;">
                                 <div style="width: 8%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
-                                <?php for ($i = 0; $i < count($value); $i++) : ?>
-                                    <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
-                                <?php endfor; ?>
+                                
+                                <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_trips.php?trip_id=<?php echo $value[0]; ?>"><?php echo $value[0]; ?></a></div>
+                                <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_seats.php?seat_id=<?php echo $value[1]; ?>"><?php echo $value[1]; ?></a></div>
+                                <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_users.php?user_id=<?php echo $value[2]; ?>"><?php echo $value[2]; ?></a></div>
+                                
 
                                 <form method="POST" action="../edit/edit_order.php">
                                     <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    

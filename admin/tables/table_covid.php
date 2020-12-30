@@ -53,7 +53,7 @@
                         foreach($arr as $key => $value) : ?>
         
                             <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
-                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key;?> </div>
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><a href="table_cities.php?city_name=<?php echo $key; ?>"><?php echo $key;?></a></div>
 
                                 <div style="width: 60%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
 

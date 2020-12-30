@@ -16,9 +16,15 @@
                 <h1 class="title">Администрирование</h1>    
                     
                     <?php 
-                    
+
                     $tableName = 'seats_list';
                     $_SESSION['table'] = $tableName;
+                    
+                    if (isset($_GET['seat_id'])) {
+                        $ch_id = $_GET['seat_id'];
+                    } else {
+                        $ch_id = -1;
+                    }
 
                     echo "<h1>Места</h1>";
 
@@ -50,17 +56,23 @@
                         foreach($arr as $key => $value) : ?>
         
                             <div style="display: flex; width: 1000px; height: 20px; border: 1px black solid;">
-                                <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php if ($key == $ch_id) : ?>
+                                    <div style="width: 4%; padding-left: 5px; outline: 3px red solid;"><?php echo $key; ?></div>
+                                <?php else : ?>
+                                    <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php endif; ?>
 
                             <?php for ($i = 0; $i < count($value); $i++) :
-                                if ($i == 2) :
-                                    if ($value[$i] == 0) : ?>
+                                if ($i == 2) {
+                                    if ($value[$i] == 0) { ?>
                                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Свободно - 0</div>
-                                    <?php else : ?>
+                                    <?php } else { ?>
                                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Занято - 1</div>
-                                <?php endif; else : ?>
-                                    <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
-                                <?php endif;
+                                    <?php }} elseif ($i == 0) { ?>
+                                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_trains.php?train_id=<?php echo $value[$i]; ?>"><?php echo $value[$i]; ?></a></div>
+                                    <?php } else { ?>
+                                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                                    <?php }
                             endfor; ?>
 
                                 <form method="POST" action="../edit/edit_seat.php">

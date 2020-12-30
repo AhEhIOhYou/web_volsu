@@ -20,6 +20,12 @@
                     $tableName = 'user_list';
                     $_SESSION['table'] = $tableName;
 
+                    if (isset($_GET['user_id'])) {
+                        $ch_id = $_GET['user_id'];
+                    } else {
+                        $ch_id = -1;
+                    }
+
                     echo "<h1>Пользователи</h1>";
 
                     try {
@@ -54,7 +60,11 @@
                             
                         foreach($arr as $key => $value) :?>        
                             <div style="display: flex; width: 1220px; height: 20px; border: 1px black solid;">
-                                <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php if ($key == $ch_id) : ?>
+                                    <div style="width: 4%; padding-left: 5px; outline: 3px red solid;"><?php echo $key; ?></div>
+                                <?php else : ?>
+                                    <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php endif; ?>
 
                                 <?php for ($i = 0; $i < count($value); $i++) :
                                     if ($i == 4) :

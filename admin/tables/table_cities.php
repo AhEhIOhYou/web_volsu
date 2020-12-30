@@ -20,6 +20,12 @@
                     $tableName = 'city_data';
                     $_SESSION['table'] = $tableName;
 
+                    if (isset($_GET['city_name'])) {
+                        $ch_id = $_GET['city_name'];
+                    } else {
+                        $ch_id = -1;
+                    }
+
                     echo "<h1>Города</h1>";
 
                     try {
@@ -52,7 +58,11 @@
         
                             <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
                                 <div style="width: 10%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php if ($value[0] == $ch_id) :?> 
+                                    <div style="width: 90%; padding-left: 5px; outline: 3px red solid;"><?php echo $value[0]; ?></div>
+                                <?php else : ?>
                                 <div style="width: 90%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
+                                <?php endif; ?>
                                 <form method="POST" action="../edit/edit_city.php">
                                     <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
                                 </form>
