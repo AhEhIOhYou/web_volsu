@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -10,12 +16,11 @@
                 <h1 class="title">Администрирование</h1>    
                     
                     <?php 
-
-                    session_start();
+                    
                     $tableName = 'seats_list';
                     $_SESSION['table'] = $tableName;
 
-                    echo "<h1>Пользователи</h1>";
+                    echo "<h1>Места</h1>";
 
                     try {
                         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
@@ -33,49 +38,41 @@
                     </div>
                         
                     <?php
-                    $users = $db->query("SELECT * from $tableName");                        
+                    $seats = $db->query("SELECT * from $tableName");                        
                             
-                        while($row = $users->fetch(PDO::FETCH_BOTH))
+                        while($row = $seats->fetch(PDO::FETCH_BOTH))
                         {
                             $id = array_shift($row);
                             
                             $arr[$id] = array($row[1], $row[2], $row[3]);
                         }
-
-                        if (empty($arr)) {
-                            echo '<h3>Мест нет</h3>';
-                        } else {
                             
-                        foreach($arr as $key => $value)
-                        {
+                        foreach($arr as $key => $value) : ?>
         
-                            echo '<div style="display: flex; width: 1000px; height: 20px; border: 1px black solid;">
-                            <div style="width: 4%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
+                            <div style="display: flex; width: 1000px; height: 20px; border: 1px black solid;">
+                                <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
 
-                            for ($i = 0; $i < count($value); $i++) {
-                                if ($i == 2) {
-                                    if ($value[$i] == 0) {
-                                        echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Свободно - 0</div>';
-                                    } else {
-                                        echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Занято - 1</div>';
-                                    }
-                                } else {
-                                    echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                                }
-                            }
+                            <?php for ($i = 0; $i < count($value); $i++) :
+                                if ($i == 2) :
+                                    if ($value[$i] == 0) : ?>
+                                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Свободно - 0</div>
+                                    <?php else : ?>
+                                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Занято - 1</div>
+                                <?php endif; else : ?>
+                                    <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                                <?php endif;
+                            endfor; ?>
 
-                            echo '<form method="POST" action="../edit/edit_seat.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                            </form>
-                            <form method="POST" action="../delete/delete.php">
-                                <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                            </form>
-                            </div>';
-                        } 
-                    }
+                                <form method="POST" action="../edit/edit_seat.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                                </form>
+                                <form method="POST" action="../delete/delete.php">
+                                    <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
+                                </form>
+                            </div>
+                        <?php endforeach; ?>
 
-                        echo '<div><a href="../addNewData.php">Добавить место</a></div>';
-                    ?>
+                        <div><a href="../addNewData.php">Добавить место</a></div>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

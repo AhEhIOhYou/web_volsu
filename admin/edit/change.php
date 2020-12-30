@@ -6,11 +6,6 @@ $id = $_POST['id'];
 require_once '../../log.php';
 my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -change.php-');
 
-function clean20($value = "") {
-    $value = preg_replace('/\s/', '', $value);
-    return $value;
-}
-
 $end = false;
 
 try {
@@ -28,8 +23,6 @@ if($tableName === 'user_list') {
     $surName = $_POST['n_surname'];
     $email = $_POST['n_email'];
     $login = $_POST['n_login'];
-    
-    $surName = clean20($surName);
 
 
     function check_length($value = "", $min, $max) {

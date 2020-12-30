@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -11,7 +17,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'weather_data';
                     $_SESSION['table'] = $tableName;
 
@@ -31,37 +36,33 @@
                     </div>
                         
                     <?php
-                    $users = $db->query("SELECT * from $tableName");                        
+                    $weth = $db->query("SELECT * from $tableName");                        
                             
-                        while($row = $users->fetch(PDO::FETCH_BOTH))
+                        while($row = $weth->fetch(PDO::FETCH_BOTH))
                         {
                             $id = array_shift($row);
                             
                             $arr[$id] = array($row[1]);
                         }
-                        if (empty($arr)) {
+                        if (empty($arr)) :
                             echo '<h3>Информации нет</h3>';
-                        } else {
+                        else :
                             
-                        foreach($arr as $key => $value)
-                        {
+                        foreach($arr as $key => $value) : ?>
         
-                            echo '<div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
-                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
+                            <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <div style="width: 80%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
 
-                            echo '<div style="width: 80%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
-
-                            echo '<form method="POST" action="../edit/edit_weth.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                            </form>
-                            <form method="POST" action="../delete/delete.php">
-                                <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                            </form>
-                            </div>';
-                        } 
-                    }
-
-                    ?>
+                                <form method="POST" action="../edit/edit_weth.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                                </form>
+                                <form method="POST" action="../delete/delete.php">
+                                    <button style="width: 100px;" value="<?php echo $key; ?>'" name="id">Удалить</button>    
+                                </form>
+                            </div>
+                    <?php endforeach;
+                    endif; ?>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

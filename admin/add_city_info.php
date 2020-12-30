@@ -1,5 +1,8 @@
 <?php
         session_start();
+        if (($_SESSION['admin'] != true)) {
+            header('Location: ../index.php');
+        }
         $city_id = $_SESSION['city_id'];
         unset($_SESSION['city_id']);
         $data = $_SESSION['data'];

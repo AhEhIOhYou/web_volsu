@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -11,7 +17,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'city_data';
                     $_SESSION['table'] = $tableName;
 
@@ -31,39 +36,34 @@
                     </div>
                         
                     <?php
-                    $users = $db->query("SELECT * from $tableName");                        
+                    $cities = $db->query("SELECT * from $tableName");                        
                             
-                        while($row = $users->fetch(PDO::FETCH_BOTH))
+                        while($row = $cities->fetch(PDO::FETCH_BOTH))
                         {
                             $id = array_shift($row);
                             
                             $arr[$id] = array($row[1]);
                         }
 
-                        if (empty($arr)) {
+                        if (empty($arr)) :
                             echo '<h3>Городов нет</h3>';
-                        } else {
-                            
-                        foreach($arr as $key => $value)
-                        {
+                        else :
+                        foreach($arr as $key => $value) : ?>
         
-                            echo '<div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
-                            <div style="width: 10%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
-
-                            echo '<div style="width: 90%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
-
-                            echo '<form method="POST" action="../edit/edit_city.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                            </form>
-                            <form method="POST" action="../delete/delete.php">
-                                <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                            </form>
-                            </div>';
-                        } 
-                    }
-                        echo '<div><a href="../addNewData.php">Добавить город</a></div>' ;
-                    
-                    ?>
+                            <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
+                                <div style="width: 10%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <div style="width: 90%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
+                                <form method="POST" action="../edit/edit_city.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                                </form>
+                                <form method="POST" action="../delete/delete.php">
+                                    <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
+                                </form>
+                            </div>
+                        <?php endforeach;
+                        endif; ?>
+                
+                    <div><a href="../addNewData.php">Добавить город</a></div>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

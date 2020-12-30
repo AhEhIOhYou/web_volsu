@@ -1,5 +1,6 @@
 <?php require_once 'log.php';?>
 <?php
+    
     session_start();
     my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -sell.php-');
     $tripDelete_id = $_POST['trip_id'];

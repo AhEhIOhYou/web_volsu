@@ -1,6 +1,6 @@
 <?php session_start();
     unset($_SESSION['table']);
-    if (!isset($_SESSION['user'])) {
+    if (!isset($_SESSION['user']) || ($_SESSION['admin'] != true)) {
         header('Location: ../index.php');
     }
     require_once '../log.php';

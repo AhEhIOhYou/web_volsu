@@ -1,16 +1,17 @@
 <?php require_once 'log.php';?>
 <?php 
     session_start();
-    unset($_SESSION['table']);
-    if(!isset($_SESSION['user'])) {
+
+    if(!isset($_SESSION['user']) || !isset($_SESSION['trip'])) {
         header('Location:  /user/lk.login.php');
     }
+
     my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -buy.php-');
 
-    $id_train = $_POST['key_train_id'];
+    //все необхоимое для оформления заказа
+    $trip_id = $_POST['key_trip_id'];
     $seat = $_POST['seat'];
     $id_user = $_SESSION['user'];
-
 
     try {
         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
@@ -20,7 +21,6 @@
         die();
     }
 
-    $trip_id = $_SESSION['trip'];
     $isorder = $db->query("SELECT COUNT(`trip_id`) as count FROM `order_list` 
                         WHERE `user_id` = $id_user AND `trip_id` = $trip_id")->fetchColumn();
     if ($isorder > 0) {
@@ -28,18 +28,26 @@
         echo '<a href="trips_list.php">К списку</a>';
     } else {
 
+        //поиск id поезда, для последующего поиска мест, по номеру поезда из данных рейса
+        $t_id = $db-> prepare("SELECT `train_list`.`id` FROM `train_list`,`trip_list` 
+                                WHERE  `trip_list`.`id` = ? AND `trip_list`.`train_number` = `train_list`.`number`");
+        $t_id->execute([$trip_id]);
+        $id_train = $t_id->fetchColumn();
+
+        //поиск id места, по id поезда и передаваемому номеру
         $s_id = $db-> prepare("SELECT `id` FROM `seats_list` WHERE  `number` = ? AND `train_id` = ?");
         $s_id->execute([$seat,$id_train]);
         $id_seat = $s_id->fetchColumn();
 
+        //формируем заказ и записываем
         $db->prepare("INSERT INTO `order_list` (`trip_id`,`seat_number`,`user_id`)
                         VALUES(?, ?, ?)")->execute([$trip_id, $id_seat, $id_user]);
         
+        
         $id = $db->lastInsertId();
         
-        unset($_SESSION['trip']);
-
-        $db->prepare("UPDATE `seats_list` SET `state` = ? WHERE `train_id` = ? AND `id` = ?")->execute([1,$id_train,$id_seat]);
+        //изменяем состояние занятого места
+        $db->prepare("UPDATE `seats_list` SET `state` = ? WHERE `id` = ?")->execute([1,$id_seat]);
         
         my_log('Пользователь id = ' . $_SESSION['user'] . ' совершил заказ id = ' . $id);
 

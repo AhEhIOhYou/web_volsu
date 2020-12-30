@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -11,7 +17,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'quarantine_data';
                     $_SESSION['table'] = $tableName;
 
@@ -32,20 +37,20 @@
                     </div>
                         
                     <?php
-                    $users = $db->query("SELECT * from $tableName");                        
+                    $covids = $db->query("SELECT * from $tableName");                        
                             
-                        while($row = $users->fetch(PDO::FETCH_BOTH))
+                        while($row = $covids->fetch(PDO::FETCH_BOTH))
                         {
                             $id = array_shift($row);
                             
                             $arr[$id] = array($row[1],$row[2]);
                         }
 
-                        if (empty($arr)) {
+                        if (empty($arr)) :
                             echo '<h3>Информации нет</h3>';
-                        } else {
+                        else :
                             
-                        foreach($arr as $key => $value) { ?>
+                        foreach($arr as $key => $value) : ?>
         
                             <div style="display: flex; width: 620px; height: 20px; border: 1px black solid;">
                                 <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key;?> </div>
@@ -67,8 +72,8 @@
                                 </form>
                             
                             </div>
-                        <?php }
-                        }  ?>
+                        <?php endforeach;
+                        endif;  ?>
                         
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>

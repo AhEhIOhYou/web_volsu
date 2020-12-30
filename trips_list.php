@@ -39,7 +39,6 @@
             <section class="main-cont">
                 <h1 class="title">Список всех рейсов</h1><br>
                 <?php 
-                
                     try {
                         $db = new PDO('mysql:host=localhost;dbname=autotrain_data', 'root', '');
                     } catch (PDOException $e) {
@@ -48,6 +47,7 @@
                         die();
                     }
 
+                    //выбираем все рейсы
                     $trips = $db->query("SELECT * from `trip_list`");
                                              
                     while($row = $trips->fetch(PDO::FETCH_BOTH)) 
@@ -55,32 +55,34 @@
                         $id = array_shift($row);
                         $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7]);
                     }
-                    if (empty($arr)) {
-                        echo '<h3>Билетов нет!</h3>';
-                    } else {
+                    //если рейсов нет - то пусто
+                    if (empty($arr)) : ?>
+                        <h3>Билетов нет!</h3>
+                    <?php else :
                     foreach($arr as $key => $value) :?>
 
-                    <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Откуда</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Куда</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время отправления</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Дата</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
-                    </div>
+                        <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Откуда</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Куда</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время отправления</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Дата</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
+                        </div>
 
-                    <div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">
+                        <div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">
                             <?php for ($i = 0; $i < count($value); $i++) : ?>
                                 <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
                             <?php endfor;?>
 
                             <form method="POST" action="trip_all_info.php">
-                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="trip_id">Подробнее</button> 
-                                </form>
+                                <button style="width: 120px;" value="<?php echo $key; ?>" name="trip_id">Подробнее</button> 
+                            </form>
+                        </div><br><br>
 
-                    </div><br><br>
-                <?php    endforeach; }?>
+                    <?php endforeach;
+                endif;?>
                 <h3><a href="index.php">На главную</a></h3>
             </section>
         </main>

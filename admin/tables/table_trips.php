@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -11,7 +17,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'trip_list';
                     $_SESSION['table'] = $tableName;
 
@@ -46,29 +51,27 @@
                         $arr[$id] = array($row[1],$row[3],$row[2],$row[4],$row[6],$row[5],$row[7]);
                     }
 
-                    if (empty($arr)) {
+                    if (empty($arr)) :
                         echo '<h3>Рейсов нет</h3>';
-                    } else {
-                
-                    foreach($arr as $key => $value)
-                    {
-                        echo '<div style="display: flex; width: 1220px; height: 20px; border: 1px black solid;">
-                        <div style="width: 4%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
-                        for ($i = 0; $i < count($value); $i++) {
-                            echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                        }
+                    else :
+                    foreach($arr as $key => $value) : ?>
+                        <div style="display: flex; width: 1220px; height: 20px; border: 1px black solid;">
+                            <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                            
+                            <?php for ($i = 0; $i < count($value); $i++) : ?>
+                                <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                            <?php endfor; ?>
 
-                        echo '<form method="POST" action="../edit/edit_trips.php">
-                                <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                              </form>
-                                <form method="POST" action="../delete/delete.php">
-                                    <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                                </form>
-                        </div>';
-                        } 
-                    }
-                        echo '<div><a href="../addNewData.php">Добавить рейс</a></div>';
-                    ?>
+                            <form method="POST" action="../edit/edit_trips.php">
+                                <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                            </form>
+                            <form method="POST" action="../delete/delete.php">
+                                <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
+                            </form>
+                        </div>
+                        <?php endforeach;
+                    endif; ?>
+                        <div><a href="../addNewData.php">Добавить рейс</a></div>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

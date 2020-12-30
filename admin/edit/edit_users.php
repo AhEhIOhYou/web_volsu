@@ -4,6 +4,9 @@
         header('Location: ../main.php');
     }
     session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
     require_once '../../log.php';
     my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -edit_users.php-');
 ?>

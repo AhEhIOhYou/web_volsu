@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -11,7 +17,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'order_list';
                     $_SESSION['table'] = $tableName;
 
@@ -33,41 +38,37 @@
                     </div>
                         
                     <?php
-                    $users = $db->query("SELECT * from $tableName");                        
+                    $orders = $db->query("SELECT * from $tableName");                        
                             
-                        while($row = $users->fetch(PDO::FETCH_BOTH))
+                        while($row = $orders->fetch(PDO::FETCH_BOTH))
                         {
                             $id = array_shift($row);
                             
                             $arr[$id] = array($row[1], $row[2], $row[3]);
                         }
 
-                        if (empty($arr)) {
+                        if (empty($arr)) :
                             echo '<h3>Заказов нет</h3>';
-                        } else {
+                        else :
                             
-                        foreach($arr as $key => $value)
-                        {
-        
-                            echo '<div style="display: flex; width: 800px; height: 20px; border: 1px black solid;">
-                            <div style="width: 8%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
+                        foreach($arr as $key => $value) :?>        
+                            <div style="display: flex; width: 800px; height: 20px; border: 1px black solid;">
+                                <div style="width: 8%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                                <?php for ($i = 0; $i < count($value); $i++) : ?>
+                                    <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                                <?php endfor; ?>
 
-                            for ($i = 0; $i < count($value); $i++) {
-                                echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                            }
-
-                            echo '<form method="POST" action="../edit/edit_order.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                            </form>
-                            <form method="POST" action="../delete/order.php">
-                                <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                            </form>
-                            </div>';
-                        } 
-                    }
-                        echo '<div><a href="../addNewData.php">Добавить заказ</a></div>';
+                                <form method="POST" action="../edit/edit_order.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                                </form>
+                                <form method="POST" action="../delete/order.php">
+                                    <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
+                                </form>
+                            </div>
+                        <?php endforeach;
+                    endif ?>
                     
-                    ?>
+                    <div><a href="../addNewData.php">Добавить заказ</a></div>
                 <h3><a href="../main.php">Назад   </a></h3>
             </secion>
         </main>

@@ -4,6 +4,9 @@
     if (!isset($tableName)) {
         header('Location: ../index.php');
     }
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
+    }
     require_once '../log.php';
     my_log('Пользователь id = ' . $_SESSION['user'] . ' на странице -addNewData.php-');
     
@@ -111,7 +114,7 @@
                                 <?php endforeach;
                             }?>
                     </select>
-                    <select  name="seat_number">
+                    <select  name="seat_id">
                             <?php
                             $f_all = $db->query("SELECT `id` FROM `seats_list` WHERE `state` = 0");
                             $arr_s = array(); 
@@ -156,14 +159,14 @@
 
                 <?php } if ($tableName === 'seats_list') {?>
                     <div style="display: flex; width: 406px; height: 20px; border: 1px black solid;">
-                        <div style="width: 35%; padding-left: 5px; outline: 1px black solid;">id поезда</div>
+                        <div style="width: 35%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">Собст. номер</div>
                         <div style="width: 35%; padding-left: 5px; outline: 1px black solid;">Состояние</div>
                     </div><br>
                 <form method="POST" action="add.php" class="reg-form">
-                    <select  name="train_id">
+                    <select  name="train_number">
                             <?php
-                            $f_all = $db->query("SELECT `id` FROM `train_list`");
+                            $f_all = $db->query("SELECT `number` FROM `train_list`");
                             $arr_s = array(); 
                             while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
                                 foreach ($arr_s as $val): ?> 

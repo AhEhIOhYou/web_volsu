@@ -1,6 +1,9 @@
 <?php
 
     session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
+    }
     $tableName = $_SESSION['table'];
 
     if (!isset($tableName)) {
@@ -110,16 +113,31 @@
     elseif ($tableName === 'order_list') {
 
         $trip_id = $_POST['trip_id'];
-        $seat_number = $_POST['seat_number'];
+        $seat_id = $_POST['seat_id'];
         $user_id = $_POST['user_id'];  
 
+        //поиск id поезда, для последующего поиска места, по номеру поезда из данных рейса
+        $t_id = $db-> prepare("SELECT `train_list`.`id` FROM `train_list`,`trip_list` 
+                                WHERE  `trip_list`.`id` = ? AND `trip_list`.`train_number` = `train_list`.`number`");
+        $t_id->execute([$trip_id]);
+        $id_train = $t_id->fetchColumn();
+
+        $s_id = $db-> prepare("SELECT count(`id`) FROM `seats_list` WHERE  `train_id` = ? AND `id` = ?");
+        $s_id->execute([$id_train, $seat_id]);
+        $is_seat = $s_id->fetchColumn();
+        
+        //если место не связано с поездам - ошибка
+        if ($is_seat == 0) {
+            die('Такого места в поезде рейса не существует');
+        }
+
         $db->prepare("INSERT INTO $tableName (`trip_id`,`user_id`,`seat_number`)
-                    VALUES( ?, ?, ?)")->execute([$trip_id, $user_id, $seat_number]);
+                    VALUES( ?, ?, ?)")->execute([$trip_id, $user_id, $seat_id]);
 
         $id = $db->lastInsertId();
         my_log('Пользователь id = ' . $_SESSION['user'] . ' добавил (order_list) id = ' . $id);
 
-        $db->prepare("UPDATE `seats_list` SET `state` = ? WHERE `seat_number` = ?")->execute([0,$seat_number]);
+        $db->prepare("UPDATE `seats_list` SET `state` = ? WHERE `id` = ?")->execute([0,$seat_id]);
         
         header('Location: /admin/tables/table_orders.php');
     } 
@@ -148,9 +166,13 @@
     //ДОБАВЛЯЕМ МЕСТО
     elseif ($tableName === 'seats_list') {
         
-        $train_id = $_POST['train_id'];
+        $train_number = $_POST['train_number'];
         $number = $_POST['number'];
         $state = $_POST['state'];
+
+        $t_id = $db-> prepare("SELECT `id` FROM `train_list` WHERE  `number` = ?");
+        $t_id->execute([$train_number]);
+        $train_id = $t_id->fetchColumn();
 
         $db->prepare("INSERT INTO $tableName (`train_id`,`number`,`state`)
                         VALUES( ?,?,? )")->execute([$train_id, $number, $state]);
