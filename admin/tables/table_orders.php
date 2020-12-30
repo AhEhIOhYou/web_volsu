@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -12,7 +18,6 @@
                     
                     <?php 
 
-                    session_start();
                     $tableName = 'orders';
                     $_SESSION['table'] = $tableName;
 
@@ -23,44 +28,50 @@
                     } catch (PDOException $e) {
                         print "Ошибка подключпения к БД!: " . $e->getMessage();
                         die();
-                    } ?>
-
-
-                    <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id</div>
-                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id поезда</div>
-                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
-                    </div>
-
-                    <?php
-
+                    } 
+                      
+                    //запрашиваем и выводим (если не пустой) список всех данных из соответсвующей таблицы
                     $tabldata = $db->query("SELECT * from $tableName");
                                              
                     while($row = $tabldata->fetch(PDO::FETCH_BOTH)) 
                     {
                         $id = array_shift($row);
                         $arr[$id] = array($row[1],$row[2]);
-                    }
-                
-                    foreach($arr as $key => $value)
-                    {
-                        echo '<div style="display: flex; width: 560px; height: 20px; border: 1px black solid;">
-                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
-                        for ($i = 0; $i < count($value); $i++) {
-                            echo '<div style="width: 40%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                        }
+                    } 
+                    $is_or = $db->query("SELECT count(`id`) FROM $tableName ");
+                    $check = $is_or->fetchColumn();
 
-                        echo '<form method="POST" action="../edit/edit_orders.php">
-                                <button style="width: 120px;" value="' . $key . '" name="id">Редактировать</button>    
-                              </form>
-                                <form method="POST" action="../delete/delete.php">
-                                    <button style="width: 100px;" value="' . $key . '" name="id">Удалить</button>    
-                                </form>
-                        </div>';
-                        } 
-
-                        echo '<div><a href="../addNewData.php">Добавить закааз</a></div>';
+                    if ($check < 1) {
+                        echo '<h3>Заказов нет!</h3>';
+                    } else {
                     ?>
+
+                    <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id</div>
+                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id рейса</div>
+                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
+                    </div>
+
+                        <?php foreach($arr as $key => $value) : ?>
+
+                        <div style="display: flex; width: 560px; height: 20px; border: 1px black solid;">
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                            
+                            <?php for ($i = 0; $i < count($value); $i++) : ?>
+                                <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                            <?php endfor; ?>
+
+                            <form method="POST" action="../edit/edit_orders.php">
+                                <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
+                            </form>
+                            <form method="POST" action="../delete/delete.php">
+                                <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
+                            </form>
+                        </div>
+                    <?php endforeach; 
+                    }?>
+
+                        <div><a href="../addNewData.php">Добавить закааз</a></div>
                 <h3><a href="../main.php">Назад</a></h3>
             </secion>
         </main>

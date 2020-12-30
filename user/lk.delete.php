@@ -8,10 +8,10 @@
         print "Ошибка подключпения к БД!: " . $e->getMessage();
         die();
     }
-
+    //удаляем текущий активный id
     $user = $_SESSION['user'];
     $db->prepare("DELETE FROM `users_data` WHERE `id` = ?")->execute([$user]);
-
+    //снимаем данные сессии
     unset($_SESSION['user']);
     unset($_SESSION['admin']);
 

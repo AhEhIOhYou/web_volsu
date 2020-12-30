@@ -4,13 +4,11 @@
     $tableName = $_SESSION['table'];
     $id = $_POST['id'];
 
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
     if (!isset($tableName) || !isset($id)) {
         header('Location: ../main.php');
-    }
-
-    function clean20($value = "") {
-        $value = preg_replace('/\s/', '', $value);
-        return $value;
     }
 
     $end = false;
@@ -25,11 +23,6 @@
 
         $login = $_POST['n_login'];
         $pass = $_POST['n_pass'];
-
-        $login = clean20($login);
-        $name = clean20($name);
-        $surName = clean20($surName);
-
 
         function check_length($value = "", $min, $max) {
             $result = (mb_strlen($value) < $min || mb_strlen($value) > $max);
@@ -140,7 +133,7 @@
     elseif ($tableName === 'orders') {
 
         $us_id = $_POST['n_id_user'];
-        $tr_id = $_POST['n_id_train'];
+        $tr_id = $_POST['n_id_trip'];
         try {
             $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
         } catch (PDOException $e) {
@@ -151,7 +144,7 @@
             $db->prepare("UPDATE $tableName SET `user_id` = ? WHERE $tableName.`id` = ?;")->execute([$us_id, $id]);
         }
         if ($tr_id != NULL) {
-            $db->prepare("UPDATE $tableName SET `train_id` = ? WHERE $tableName.`id` = ?;")->execute([$tr_id, $id]);
+            $db->prepare("UPDATE $tableName SET `trip_id` = ? WHERE $tableName.`id` = ?;")->execute([$tr_id, $id]);
         }
     }
     

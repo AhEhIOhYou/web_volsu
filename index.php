@@ -1,5 +1,5 @@
 <?php session_start();
-    unset($_SESSION['tableName']);
+    unset($_SESSION['table']);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -13,20 +13,20 @@
             <div class="lk-items-cont">
 
             <?php
-                    if (!isset($_SESSION['user'])) { 
+                    if (!isset($_SESSION['user'])) :
             ?>
 
                 <form class="lk-item" action="user/lk.login.php" method="GET">
                     <button class="lk_bttn">Войти</button>
                 </form>
             <?php 
-                    } else {
+                    else  :
             ?>
                 <form class="lk-item" action="user/lk.index.php" method="GET">
                     <button class="lk_bttn">Личный кабинет</button>
                 </form>
 
-            <?php } ?>
+            <?php endif; ?>
 
                 <form class="lk-item" action="user/lk.create.php" method="GET">
                     <button class="lk_bttn">Регистрация</button>
@@ -38,7 +38,7 @@
                 <h1 class="title">Добро пожаловать на AutoTrain!</h1>
                 <ul>
                 <?php 
-                    if ((isset($_SESSION['admin'])) && ($_SESSION['admin'] == true)) {
+                    if ((isset($_SESSION['admin'])) && ($_SESSION['admin'] == true)) :
                 ?>
                     <li>
                         <p>Администрирование</p>
@@ -46,7 +46,7 @@
                             <button name="type" value="1">Открыть</button>
                         </form>
                     </li>
-                <?php }?>
+                <?php endif;?>
                     <li>
                         <p>Список рейсов</p>
                         <form action="/trainList.php" method="GET">

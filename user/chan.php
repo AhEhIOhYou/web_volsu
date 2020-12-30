@@ -1,33 +1,24 @@
 <?php
 
-    function clean20($value = "") {
-        $value = preg_replace('/\s/', '', $value);
-        return $value;
-    }
-
-    $end = false;
-
     session_start();
-    if (!isset($_SESSION['user'])) {
-        header('Location: lk.index.php');
+    if (!isset($_SESSION['useer'])) {
+        header('Location: /index.php');
     }
     
     $id = $_SESSION['user'];
-
+    
+    //получаем переменные
     $name = $_POST['n_name'];
     $surName = $_POST['n_surname'];
     $email = $_POST['n_email'];
     $tel = $_POST['n_tel'];
     $age = $_POST['n_age'];
-
     $login = $_POST['n_login'];
     $pass = $_POST['n_pass'];
 
-    $login = clean20($login);
+    $end = false;
 
-    $name = clean20($name);
-
-
+    //валидация
     function check_length($value = "", $min, $max) {
         $result = (mb_strlen($value) < $min || mb_strlen($value) > $max);
         return !$result;
@@ -66,6 +57,7 @@
             die();
         }
 
+        //что не пустое - меняем
         if ($name != NULL) {
             $db->prepare("UPDATE `users_data` SET `name` = ? WHERE `users_data`.`id` = ?")->execute([$name, $id]);
         }

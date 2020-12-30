@@ -44,6 +44,7 @@
                         die();
                     }
 
+                    //извлекаем все данные о рейсах и выводим их
                     $trips = $db->query("SELECT * from `trips_data`");
                                              
                     while($row = $trips->fetch(PDO::FETCH_BOTH)) 
@@ -52,7 +53,7 @@
                         $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[5]);
                     }
 
-                    foreach($arr as $key => $value) {?>
+                    foreach($arr as $key => $value) : ?>
 
                     <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
@@ -62,24 +63,21 @@
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
                     </div>
-    
-                    <?php
 
-                        echo '<div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">';
-                        echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
-                            for ($i = 0; $i < count($value); $i++) {
-                                echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                            }
+                    <div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key ?></div>
+                        
+                        <?php for ($i = 0; $i < count($value); $i++) : ?>
+                            <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i];?></div>
+                        <?php endfor;?>
+                        
+                        <form method="POST" action="buy.php">
+                            <button style="width: 120px;" value="<?php echo $key;?>" name="id_trip">Купить!</button>    
+                        </form>
 
-                            echo '<form method="POST" action="buy.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="key">Купить!</button>    
-                                </form>
-
-                        </div><br><br>'; 
-                    }
-                ?>
+                    </div><br><br>
+                    <?php endforeach;?>
                 <h3><a href="index.php">На главную</a></h3>
-
             </section>
         </main>
     </body>

@@ -3,6 +3,10 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -43,14 +47,14 @@
                 <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
-                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id поезда</div>
+                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id рейса</div>
     
                     </div>
 
                     <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $id; ?></div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['user_id']; ?></div>
-                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['train_id']; ?></div>
+                        <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $row['trip_id']; ?></div>
                     </div>
 
 
@@ -60,7 +64,7 @@
                 <p>Введите новые данные:</p>
                 <form method="POST" action="change.php" class="reg-form">
                     <input type="number" name="n_id_user" placeholder="id пользователя">
-                    <input type="number" name="n_id_train" placeholder="id заказа">
+                    <input type="number" name="n_id_trip" placeholder="id рейса">
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 
 

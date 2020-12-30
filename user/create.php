@@ -4,26 +4,18 @@
         unset($_SESSION['user']);
     }
 
-
+    //получаем данные
     $name = $_POST['name'];
     $surName = $_POST['surname'];
     $email = $_POST['email'];
     $tel = $_POST['tel'];
     $age = $_POST['age'];
-
     $login = $_POST['login'];
     $pass = $_POST['pass'];
 
-    function clean20($value = "") {
-        $value = preg_replace('/\s/', '', $value);
-        return $value;
-    }
-
-    $name = clean20($name);
-    $surName = clean20($surName);
-
     $end = false;
 
+    //валадация
     function check_length($value = "", $min, $max) {
         $result = (mb_strlen($value) < $min || mb_strlen($value) > $max);
         return !$result;
@@ -62,9 +54,10 @@
             die();
         }
 
+        //создаем запись и заполняем
         $db->prepare("INSERT INTO users_data (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
                     VALUES(?, ?, ?, ?, ?, ?, ?)")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
-
+        //сразу авторизуем
         $id = $db->lastInsertId();
         
         $_SESSION['user'] = $id; 

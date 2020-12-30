@@ -1,8 +1,8 @@
 <?php 
     session_start();
     $tableName = $_SESSION['table'];
-    if (!isset($tableName)) {
-        header('Location: main.php');
+    if (!isset($tableName) || ($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
     }
 ?>
 
@@ -46,7 +46,7 @@
 
                 <form method="POST" action="add.php" class="reg-form">
                     <input type="number" name="id_user" placeholder="id пользователя" required>
-                    <input type="number" name="id_train" placeholder="id заказа" required>
+                    <input type="number" name="id_trip" placeholder="id заказа" required>
 
                     <button type="submit">Создать</button>
                 </form> 

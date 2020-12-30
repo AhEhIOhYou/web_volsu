@@ -3,6 +3,10 @@
     if (!isset($id)) {
         header('Location: ../main.php');
     }
+    session_start();
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../../index.php');
+    }
 ?>
 
 <!DOCTYPE html>
