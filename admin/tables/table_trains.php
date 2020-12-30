@@ -19,6 +19,13 @@
 
                     $tableName = 'trips_data';
                     $_SESSION['table'] = $tableName;
+                    
+                    if (isset($_GET['id_trip'])) {
+                        $ch_id = $_GET['id_trip'];
+                    } else {
+                        $ch_id = -1;
+                    }
+                    
 
                     echo "<h1>Рейсы</h1>";
                         
@@ -58,9 +65,13 @@
                         <div style="display: flex; width: 1220px; height: 20px; border: 1px black solid;">
                             <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
                             
+                            
                             <?php for ($i = 0; $i < count($value); $i++) : ?>
+                                <?php if ($key == $ch_id) : ?>
+                                    <div style="width: 20%; padding-left: 5px; outline: 3px red solid;"><?php echo $value[$i]; ?></div>
+                                    <?php else :?>
                                 <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
-                            <?php endfor; ?>
+                            <?php endif; endfor; ?>
 
                             <form method="POST" action="../edit/edit_trains.php">
                                 <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    

@@ -57,9 +57,8 @@
                         <div style="display: flex; width: 560px; height: 20px; border: 1px black solid;">
                             <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
                             
-                            <?php for ($i = 0; $i < count($value); $i++) : ?>
-                                <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
-                            <?php endfor; ?>
+                            <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_trains.php?id_trip=<?php echo $value[0]; ?>"><?php echo $value[0]; ?></a></div>
+                            <div style="width: 40%; padding-left: 5px; outline: 1px black solid;"><a href="table_users.php?id_user=<?php echo $value[1]; ?>"><?php echo $value[1]; ?></a></div>
 
                             <form method="POST" action="../edit/edit_orders.php">
                                 <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    

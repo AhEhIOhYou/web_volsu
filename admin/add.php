@@ -7,6 +7,14 @@
         header('Location: ../index.php');
     }
 
+    
+    try {
+        $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
+    } catch (PDOException $e) {
+        print "Ошибка подключпения к БД!: " . $e->getMessage();
+        die();
+    }
+
     $end = false;
     //проверяет в тб жобавляем по переданному названию
     //первая - таблица пользователей
@@ -53,13 +61,6 @@
         } 
         else {  
 
-            try {
-                $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
-            } catch (PDOException $e) {
-                print "Ошибка подключпения к БД!: " . $e->getMessage();
-                die();
-            }
-
             $db->prepare("INSERT INTO $tableName (`name`,`surname`,`login`,`pass`,`age`,`tel`,`email`)
                         VALUES( ?, ?, ?, ?, ?, ?, ? );")->execute([$name, $surName, $login, $pass, $age, $tel, $email]);
 
@@ -81,13 +82,7 @@
         }
         if ($end === true) {
             die("Ошибка!");
-        } else {
-            try {
-                $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
-            } catch (PDOException $e) {
-                print "Ошибка подключпения к БД!: " . $e->getMessage();
-                die();
-            }   
+        } else {  
 
             $db->prepare("INSERT INTO $tableName (`place_from`,`time_from`,`place_to`,`time_to`,`price`)
                         VALUES( ?, ?, ?, ?, ?)")->execute([$place_from, $time_from, $place_to, $time_to, $price]);
@@ -97,14 +92,7 @@
     elseif ($tableName === 'orders') {
 
         $trip_id = $_POST['id_trip'];
-        $user_id = $_POST['id_user'];
-        
-            try {
-                $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
-            } catch (PDOException $e) {
-                print "Ошибка подключпения к БД!: " . $e->getMessage();
-                die();
-            }   
+        $user_id = $_POST['id_user'];  
 
             $db->prepare("INSERT INTO $tableName (`trip_id`,`user_id`) VALUES( ?, ?)")->execute([$trip_id, $user_id]);
 

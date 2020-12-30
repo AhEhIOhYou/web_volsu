@@ -48,7 +48,6 @@
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">id</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
                         <div style="width: 40%; padding-left: 5px; outline: 1px black solid;">id рейса</div>
-    
                     </div>
 
                     <div style="display: flex; width: 340px; height: 20px; border: 1px black solid;">
@@ -62,9 +61,31 @@
 
 
                 <p>Введите новые данные:</p>
+                <div style="display: flex; width: 240px; height: 20px; border: 1px black solid;">
+                        <div style="width: 50%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
+                        <div style="width: 50%; padding-left: 5px; outline: 1px black solid;">id рейса</div>
+                    </div>
                 <form method="POST" action="change.php" class="reg-form">
-                    <input type="number" name="n_id_user" placeholder="id пользователя">
-                    <input type="number" name="n_id_trip" placeholder="id рейса">
+                    <select  name="n_id_user">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `users_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
+                    <select  name="n_trip_id">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `trips_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <button type="submit" name="id" value="<?php echo $id; ?>">Изменить</button>
                 </form> 
 

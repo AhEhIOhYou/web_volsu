@@ -20,6 +20,12 @@
                     $tableName = 'users_data';
                     $_SESSION['table'] = $tableName;
 
+                    if (isset($_GET['id_user'])) {
+                        $ch_id = $_GET['id_user'];
+                    } else {
+                        $ch_id = -1;
+                    }
+
                     echo "<h1>Пользователи</h1>";
 
                     try {
@@ -62,8 +68,11 @@
                                 <div style="width: 4%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
                                 
                                 <?php for ($i = 0; $i < count($value); $i++) : ?>
-                                    <div style="width: 14%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
-                                <?php endfor; ?>
+                                    <?php if ($key == $ch_id) : ?>
+                                        <div style="width: 14%; padding-left: 5px; outline: 3px red solid;"><?php echo $value[$i]; ?></div>
+                                    <?php else :?>
+                                        <div style="width: 14%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                                <?php endif; endfor; ?>
 
                                 <form method="POST" action="../edit/edit_users.php">
                                     <button style="width: 120px;" value="<?php echo $key; ?>" name="id">Редактировать</button>    
