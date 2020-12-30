@@ -11,6 +11,10 @@
     $tableName = $_SESSION['table'];
     $deleteId = $_POST['id'];
 
+    if (!isset($deleteId) || !isset($tableName)) {
+        header('Location: ../index.php');
+    }
+
     $db->prepare("DELETE FROM $tableName WHERE `id` = ?")->execute([$deleteId]);
 
     header('Location: ../main.php');

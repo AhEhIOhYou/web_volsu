@@ -1,5 +1,8 @@
 <?php session_start();
     unset($_SESSION['table']);
+    if (($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -10,22 +13,9 @@
     </head>
     <header class="site-header">
             <div class="lk-items-cont">
-
-            <?php
-                    if (!isset($_SESSION['user'])) { 
-            ?>
-
-                <form class="lk-item" action="../../user/lk.login.php" method="GET">
-                    <button class="lk_bttn">Войти</button>
-                </form>
-            <?php 
-                    } else {
-            ?>
                 <form class="lk-item" action="../../user/lk.index.php" method="GET">
                     <button class="lk_bttn">Личный кабинет</button>
                 </form>
-
-            <?php } ?>
 
                 <form class="lk-item" action="../../user/lk.create.php" method="GET">
                     <button class="lk_bttn">Регистрация</button>

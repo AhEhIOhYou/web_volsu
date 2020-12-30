@@ -46,7 +46,7 @@
                         die();
                     }
 
-                    $key = $_POST['key'];
+                    $key = $_POST['id_trip'];
 
                     $train = $db->prepare("SELECT * from `trips_data` WHERE id = ?");
                     $train->execute([$key]);
@@ -57,7 +57,7 @@
                         $arr[$id] = array($row[1],$row[2],$row[3],$row[4],$row[5]);
                     }
 
-                    foreach($arr as $key => $value) {?>
+                    foreach($arr as $key => $value) :?>
 
                     <div style="display: flex; width: 1200px; height: 20px; border: 1px black solid;">
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Номер поезда</div>
@@ -67,23 +67,21 @@
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Время прибытия</div>
                         <div style="width: 20%; padding-left: 5px; outline: 1px black solid;">Цена</div>
                     </div>
-    
-                    <?php
 
-                        echo '<div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">';
-                        echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $key . '</div>';
-                        echo '<div class="from" data-attr="'.$value[0].'" style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[0] . '</div>';
-                        echo '<div class="to" data-attr="'.$value[1].'" style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[1] . '</div>';
-                            for ($i = 2; $i < count($value); $i++) {
-                                echo '<div style="width: 20%; padding-left: 5px; outline: 1px black solid;">' . $value[$i] . '</div>';
-                            }
+                    <div style="display: flex; width: 1320px; height: 20px; border: 1px black solid;">
+                        <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $key; ?></div>
+                            <div class="from" data-attr="<?php echo $value[0]; ?>" style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[0]; ?></div>
+                            <div class="to" data-attr="<?php echo $value[1]; ?>" style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[1]; ?></div>
+                            <?php    for ($i = 2; $i < count($value); $i++) :?>
+                                    <div style="width: 20%; padding-left: 5px; outline: 1px black solid;"><?php echo $value[$i]; ?></div>
+                            <?php endfor; ?>
 
-                            echo '<form method="POST" action="buy.php">
-                                    <button style="width: 120px;" value="' . $key . '" name="key">Купить!</button>    
-                                </form>
+                            <form method="POST" action="buy.php">
+                                    <button style="width: 120px;" value="<?php echo $key; ?>" name="id_trip">Купить!</button>    
+                            </form>
 
-                        </div><br><br>'; 
-                    }
+                    </div><br><br>
+                    <?php endforeach;
                 ?>
                 <div id="map" style="width: 100%; height: 500px"></div>
                 <h3 id="len"></h3>

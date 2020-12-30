@@ -1,7 +1,7 @@
 <?php
 session_start();
     if (!isset($_SESSION['user'])) {
-        header('Location: lk.index.php');
+        header('Location: /index.php');
     }
 ?>
 <!DOCTYPE html>
@@ -23,7 +23,6 @@ session_start();
                     <div style="width: 16%; padding-left: 5px; outline: 1px black solid;">Телефон</div>
                     <div style="width: 16%; padding-left: 5px; outline: 1px black solid;">Возраст</div>
                     <div style="width: 16%; padding-left: 5px; outline: 1px black solid;">Логин</div>
-                    <div style="width: 16%; padding-left: 5px; outline: 1px black solid;">Пароль</div>
                 </div>
                         <?php
 
@@ -36,19 +35,18 @@ session_start();
 
                             $id = $_SESSION['user'];
 
-                            $user = $db->prepare("SELECT `name`, `surname`, `email`, `tel`, `age`, `login`, `pass`
+                            $user = $db->prepare("SELECT `name`, `surname`, `email`, `tel`, `age`, `login`
                                                 FROM `users_data` WHERE `id` = ?");
                             $user->execute([$id]);
                             $result = $user->fetch(PDO::FETCH_ASSOC); 
                             
-
-                            echo '<div style="display: flex; width: 1000px; height: 20px; border: 1px black solid;">';
-                            foreach($result as $key => $value)
-                            {
-                                echo '<div style="width: 16%; padding-left: 5px; outline: 1px black solid;">' . $value . '</div>';
-                            }
-                            echo '</div>';
-                        ?><br>
+                        ?>
+                        
+                    <div style="display: flex; width: 1000px; height: 20px; border: 1px black solid;">
+                        <?php foreach($result as $key => $value) :?>
+                            <div style="width: 16%; padding-left: 5px; outline: 1px black solid;"><?php echo $value; ?></div>
+                        <?php endforeach; ?>
+                    </div><br>
 
 
                 <form method="POST" action="chan.php" class="reg-form">

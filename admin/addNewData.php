@@ -1,8 +1,15 @@
 <?php 
     session_start();
     $tableName = $_SESSION['table'];
-    if (!isset($tableName)) {
-        header('Location: main.php');
+    if (!isset($tableName) || ($_SESSION['admin'] != true)) {
+        header('Location: ../index.php');
+    }
+    
+    try {
+        $db = new PDO('mysql:host=localhost;dbname=big_data', 'root', '');
+    } catch (PDOException $e) {
+        print "Ошибка подключпения к БД!: " . $e->getMessage();
+        die();
     }
 ?>
 
@@ -23,6 +30,7 @@
                     <input type="text" name="name" placeholder="Имя" required>
                     <input type="text" name="surname" placeholder="Фамилия" required>
                     <input type="text" name="login" placeholder="Логин" required>
+                    <input type="password" name="pass" placeholder="Пароль" required>
                     <input type="number" name="age" placeholder="Возраст">
                     <input type="email" name="email" placeholder="Почта" required>
                     <input type="tel" name="tel" placeholder="Телефон">
@@ -42,11 +50,31 @@
                 </form> 
 
                 <?php } if ($tableName === 'orders') {?>
-
+                    <div style="display: flex; width: 257px; height: 20px; border: 1px black solid;">
+                        <div style="width: 50%; padding-left: 5px; outline: 1px black solid;">id пользователя</div>
+                        <div style="width: 50%; padding-left: 5px; outline: 1px black solid;">id рейса</div>
+                    </div>
                 <form method="POST" action="add.php" class="reg-form">
-                    <input type="number" name="id_user" placeholder="id пользователя" required>
-                    <input type="number" name="id_train" placeholder="id заказа" required>
-
+                    <select  name="id_user">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `users_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
+                    <select  name="id_trip">
+                            <?php
+                            $f_all = $db->query("SELECT `id` FROM `trips_data`");
+                            $arr_s = array(); 
+                            while ($arr_s = $f_all->fetch(PDO::FETCH_NUM)) {
+                                foreach ($arr_s as $val): ?> 
+                                    <option style="width: 100px; padding-left: 5px;"><?php echo $val ?></option>
+                                <?php endforeach;
+                            }?>
+                    </select>
                     <button type="submit">Создать</button>
                 </form> 
 

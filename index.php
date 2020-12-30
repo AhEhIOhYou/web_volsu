@@ -59,7 +59,6 @@
                     <input type="search" name="query" placeholder="Откуда/Куда">
                     <button type="submit">Найти</button> 
                 </form>
-
             </script>
         </main>
     </body>

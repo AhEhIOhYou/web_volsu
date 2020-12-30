@@ -81,7 +81,7 @@
                                     }
 
                                     echo '<form method="POST" action="trainInfo.php">
-                                        <button style="width: 120px;" value="' . $key . '" name="key">Подробнее</button>    
+                                        <button style="width: 120px;" value="' . $key . '" name="id_trip">Подробнее</button>    
                                     </form>
 
                                     </div><br><br>'; 
