@@ -52,6 +52,10 @@
                             
                             $arr[$id] = array($row[1], $row[2], $row[3]);
                         }
+                        
+                        if (empty($arr)) :
+                            echo '<h3>Заказов нет</h3>';
+                        else :
                             
                         foreach($arr as $key => $value) : ?>
         
@@ -82,7 +86,7 @@
                                     <button style="width: 100px;" value="<?php echo $key; ?>" name="id">Удалить</button>    
                                 </form>
                             </div>
-                        <?php endforeach; ?>
+                        <?php endforeach; endif; ?>
 
                         <div><a href="../addNewData.php">Добавить место</a></div>
                 <h3><a href="../main.php">Назад   </a></h3>
