@@ -1,0 +1,264 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 1280;
+    font-family: "Work Sans", "Arial", sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+ul, p {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.main-header {
+    width: 90%;
+    height: 70px;
+    background-image: linear-gradient(to right bottom,#aea2d1,#7D719E);
+    border-radius: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-text {
+    font-size: 60px;
+    line-height: 40px;
+    font-family: 'Roboto',  "Arial", sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    position: relative;
+    padding-left: 30px;
+    align-self: flex-end;
+}
+
+.title-text::after {
+    content: 'auto';
+    color: black;
+    font-size: 20px;
+    font-style: normal;
+    position: absolute;
+    top: -27px;
+    right: -45px;
+}
+
+.reg-and-auth {
+    align-self: center;
+    margin-left: 40%;
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.after-title-text {
+    color: white;
+    align-self: center;
+    padding-right: 30px;
+}
+
+.user-item {
+    height: 48px;
+    width: 49%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-bottom: 2px transparent solid;
+}
+
+.user-item::before  {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: transparent;
+    bottom: 0;
+}
+
+.user-item:hover::before {
+    background: white;
+}
+
+
+
+.after-title-text::before {
+    content: "";
+    border-left: 6px white solid;
+    border-radius: 2px;
+    padding-right: 15px;
+}
+
+/*Стили к форму начало*/
+
+.form-box {
+    margin: 100px auto;
+    height: 10%;
+    width: 80%;
+    flex-wrap: wrap;
+}
+
+.main-form {
+    margin-top: 20px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    border: 5px #9d91be solid;
+    border-radius: 10px;
+}
+
+input {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.found-item:not(.search) {
+    border-right: 5px #9d91be solid;
+}
+
+.found-item:first-child {
+    width: 35%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 0.5%;
+}
+
+.found-item:nth-child(2) {
+  width: 5%;
+  position: relative;
+}
+
+.found-item:nth-child(3) {
+    width: 35%;
+    padding-left: 0.5%;
+}
+
+.found-item:nth-child(4) {
+    width: 14%;
+    color: #6d6d6d;
+    padding-left: 0.5%;
+}
+
+.found-item:nth-child(5) {
+    width: 11%;
+    color: white;
+    background-color: #9d91be;
+    font-size: 30px;
+    font-style: italic;
+    border: none;
+}
+
+.search:hover {
+    background-color: rgb(163, 85, 236);
+    box-shadow: rgb(163, 85, 236) 0 0 10px 7px;
+    cursor: pointer;
+}
+
+.arrow-first {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-left: 3px #9d91be solid;
+  border-bottom: 3px #9d91be solid;
+  transform: rotate(45deg);
+  top: 43%;
+  left: 30%;
+}
+
+.arrow-second {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-right: 3px #9d91be solid;
+  border-top: 3px #9d91be solid;
+  transform: rotate(45deg);
+  top: 19%;
+  left: 30%;
+}
+
+.ar {
+  transition: 1.5s ease-in-out;
+}
+
+.found-item:nth-child(2):hover .arrow-first {
+  transform: rotate(585deg);
+}
+
+.found-item:nth-child(2):hover .arrow-second {
+  transform: rotate(585deg);
+}
+
+/*Cтили к форме конец*/
+
+.ad-content {
+    margin: 60px auto;
+    background-color: gainsboro;
+    height: 200px;
+    width: 70%;
+    text-align: center;
+}
+
+.ad-box {
+    padding-top: 9%;
+    color: black;
+    font-size: 50px;
+}
+
+.main-footer {
+    background-image: linear-gradient(to right bottom,#aea2d1,#7D719E);
+    border-top: 3px blueviolet solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+
+.footer-nav {
+    padding: 3% 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer-nav-item {
+    padding: 0 40px;
+    position: relative;
+}
+
+.footer-nav-item::before {
+    content: "";
+    position: absolute;
+    left: 22%;
+    width: 56%;
+    height: 2px;
+    background: transparent;
+    bottom: -15%;
+}
+
+.footer-nav-item:hover::before {
+    background: white;
+}
+
+.social {
+    padding: 0 0 3% 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.social-item {
+    padding: 0 20px;
+    transition: 0.2s ease-in;
+}
+
+.social-item:hover {
+    transform: scale(1.4);
+}

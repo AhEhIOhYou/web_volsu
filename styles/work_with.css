@@ -1,0 +1,171 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 1280;
+  font-family: "Work Sans", "Arial", sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+ul, p {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+.main-header {
+  width: 90%;
+  height: 70px;
+  background-image: linear-gradient(to right bottom,#aea2d1,#7D719E);
+  border-radius: 0 0 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-text {
+  font-size: 60px;
+  line-height: 40px;
+  font-family: 'Roboto',  "Arial", sans-serif;
+  font-style: italic;
+  font-weight: bold;
+  position: relative;
+  padding-left: 30px;
+  align-self: flex-end;
+}
+
+.title-text::after {
+  content: 'auto';
+  color: black;
+  font-size: 20px;
+  font-style: normal;
+  position: absolute;
+  top: -27px;
+  right: -45px;
+}
+
+.reg-and-auth {
+  align-self: center;
+  margin-left: 40%;
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+}
+
+.after-title-text {
+  color: white;
+  align-self: center;
+  padding-right: 30px;
+}
+
+.user-item {
+  height: 48px;
+  width: 49%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom: 2px transparent solid;
+}
+
+.user-item::before  {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  bottom: 0;
+}
+
+.user-item:hover::before {
+  background: white;
+}
+
+.after-title-text::before {
+  content: "";
+  border-left: 6px white solid;
+  border-radius: 2px;
+  padding-right: 15px;
+}
+
+
+.main-content {
+  margin-top: 70px;
+  height: 600px;
+}
+
+.title-list {
+  color: black;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.company-list-box {
+  margin: 50px auto;
+  width: 90%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+
+/*Подвал*/
+.main-footer {
+  background-image: linear-gradient(to right bottom,#aea2d1,#7D719E);
+  border-top: 3px blueviolet solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+}
+
+.footer-nav {
+  padding: 3% 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer-nav-item {
+    padding: 0 40px;
+    position: relative;
+}
+
+.footer-nav-item::before {
+    content: "";
+    position: absolute;
+    left: 22%;
+    width: 56%;
+    height: 2px;
+    background: transparent;
+    bottom: -15%;
+}
+
+.footer-nav-item:hover::before {
+    background: white;
+}
+
+.social {
+  padding: 0 0 3% 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.social-item {
+  padding: 0 20px;
+  transition: 0.2s ease-in;
+}
+
+.social-item:hover {
+  transform: scale(1.4);
+}
