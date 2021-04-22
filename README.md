@@ -7,5 +7,3 @@ Sale of tickets for flights: list of flights, price tickets, list of companies, 
 /ver. 0.7
 
 //Владимиров & Кривоносов
-
-// baka
