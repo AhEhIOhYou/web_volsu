@@ -26,9 +26,9 @@ if ($_POST['new_title']) {
         header('Location: http://vladimirov.ivdev.ru/tables/subjects.php?');
     }
 }
-else if (isset($_POST['update_id']))
+else if (isset($_GET['update_id']))
 {
-    $subject->id = $_POST['update_id'];
+    $subject->id = $_GET['update_id'];
     $subject->readOne();
 } else {
     die('Критическая ошибка: ID обновляемого объкта отсутствует. ㅇㅅㅇ');

@@ -2,11 +2,9 @@
 
 class Rating
 {
-//    подключение к бд и таблице
     private $conn;
     private $table_name = "rating";
 
-//    свойства объекта
     public $id;
     public $student_id;
     public $gr_subject_id;
@@ -18,12 +16,10 @@ class Rating
 
     function create() {
 
-//        подготовка запроса на вставку
         $query = "INSERT INTO $this->table_name (`student_id`,`gr_subject_id`,`val`)
                         VALUES(?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 
-//        исполнение
         if ($stmt->execute([$this->student_id, $this->gr_subject_id, $this->val])) {
             return true;
         } else {
@@ -33,12 +29,13 @@ class Rating
 
     function readByGroup($gr_id) {
 
-        $query = "SELECT stud.id, stud.name, subg.id, subj.title, r.val FROM rating r
-                    INNER JOIN students stud ON r.student_id = stud.id
-                    INNER JOIN group_and_subject grs ON r.gr_subject_id = grs.id
-                    INNER JOIN subjects subj ON grs.subject_id = subj.id
-                    WHERE grs.group_id = $gr_id
-                    ";
+        $query = "SELECT r.student_id, stud.name, grs.subject_id, subj.title, r.val FROM group_and_subject grs
+                LEFT JOIN rating r ON grs.id = r.gr_subject_id 
+                INNER JOIN subjects subj ON grs.subject_id = subj.id
+                LEFT JOIN students stud ON r.student_id = stud.id
+
+                WHERE grs.group_id = $gr_id
+                ";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

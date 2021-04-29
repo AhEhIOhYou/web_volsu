@@ -26,9 +26,9 @@ if ($_POST['new_name']) {
         header('Location: http://vladimirov.ivdev.ru/tables/groups.php?');
     }
 }
-else if (isset($_POST['update_id']))
+else if (isset($_GET['update_id']))
 {
-    $group->id = $_POST['update_id'];
+    $group->id = $_GET['update_id'];
     $group->readOne();
 } else {
     die('Критическая ошибка: ID обновляемого объкта отсутствует. ㅇㅅㅇ');

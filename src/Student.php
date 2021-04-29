@@ -3,11 +3,9 @@
 
 class Student
 {
-//    подключение к бд и таблице
     private $conn;
     private $table_name = "students";
 
-//    свойства объекта
     public $id;
     public $name;
     public $group_id;
@@ -18,12 +16,10 @@ class Student
 
     function create() {
 
-//        подготовка запроса на вставку
         $query = "INSERT INTO $this->table_name (`name`,`group_id`)
                         VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
 
-//        исполнение
         if ($stmt->execute([$this->name, $this->group_id])) {
             return true;
         } else {

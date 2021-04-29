@@ -12,7 +12,10 @@ require_once "../../include/header.php";
 
 //классы
 require_once "../../src/Student.php";
+require_once "../../src/Group.php";
 $student = new Student($db);
+$group = new Group($db);
+$group_list = $group->readAll();
 
 ?>
 
@@ -22,8 +25,12 @@ $student = new Student($db);
         <label >Имя студента</label>
         <input type="text" class="form-control" name="name-student" placeholder="Впиши имя">
 
-        <label >ID Группы</label>
-        <input type="text" class="form-control" name="id-group" placeholder="Впиши ID">
+        <label >Группа</label>
+        <select class="form-control" name="id-group">
+            <? foreach ($group_list as $group): ?>
+                <option value="<? echo $group['id'] ?>"><? echo $group['g_name']; ?></option>
+            <? endforeach;?>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Создать</button>
 </form>

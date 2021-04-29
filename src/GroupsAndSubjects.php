@@ -16,12 +16,10 @@ class GroupsAndSubjects
 
     function create() {
 
-//        подготовка запроса на вставку
         $query = "INSERT INTO $this->table_name (`group_id`, `subject_id`)
                         VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
 
-//        исполнение
         if ($stmt->execute([$this->group_id, $this->subject_id])) {
             return true;
         } else {
@@ -36,19 +34,10 @@ class GroupsAndSubjects
         return $stmt->fetchall(PDO::FETCH_ASSOC);
     }
 
-    function readByGroup($gr_id) {
-        $query = "SELECT 
-                    subjects.title
-                  FROM 
-                       " . $this->table_name . "
-                  INNER JOIN 
-                        subjects
-                  ON
-                        " . $this->table_name . ".subject_id =  subjects.id
-                  WHERE
-                        " . $this->table_name . ".group_id = $gr_id
-                  "
-        ;
+    function readAllTitles() {
+        $query = "SELECT  $this->table_name.id, subjects.title
+                    FROM $this->table_name
+                    JOIN subjects ON $this->table_name.subject_id = subjects.id ";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchall(PDO::FETCH_ASSOC);
@@ -99,9 +88,6 @@ class GroupsAndSubjects
                         " . $this->table_name . " .`id` = ?";
 
         $stmt = $this->conn->prepare($query);
-
-        echo $this->group_id;
-        die();
 
         $stmt->bindParam(1, $this->group_id);
         $stmt->bindParam(2, $this->subject_id);

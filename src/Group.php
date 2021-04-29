@@ -15,12 +15,10 @@ class Group
 
     function create() {
 
-//        подготовка запроса на вставку
         $query = "INSERT INTO $this->table_name (`g_name`)
                         VALUES(?)";
         $stmt = $this->conn->prepare($query);
 
-//        исполнение
         if ($stmt->execute([$this->g_name])) {
             return true;
         } else {
@@ -29,7 +27,7 @@ class Group
     }
 
 
-    function read() {
+    function readAll() {
         $query = "SELECT id, g_name FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

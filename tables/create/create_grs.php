@@ -12,7 +12,13 @@ require_once "../../include/header.php";
 
 //классы
 require_once "../../src/GroupsAndSubjects.php";
+require_once "../../src/Subject.php";
+require_once "../../src/Group.php";
 $grs = new GroupsAndSubjects($db);
+$group = new Group($db);
+$group_list = $group->readAll();
+$subject = new Subject($db);
+$subject_list = $subject->readAll();
 
 ?>
 
@@ -20,10 +26,18 @@ $grs = new GroupsAndSubjects($db);
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <div class="form-group">
         <label >ID группы</label>
-        <input type="text" class="form-control" name="group_id" placeholder="Впиши ID группы">
+        <select class="form-control" name="group_id">
+            <? foreach ($group_list as $group): ?>
+                <option value="<? echo $group['id'] ?>"><? echo $group['g_name'] . " - " . $group['id']; ?></option>
+            <? endforeach;?>
+        </select>
 
         <label >ID предмета</label>
-        <input type="text" class="form-control" name="subject_id" placeholder="Впиши ID предмета">
+        <select class="form-control" name="subject_id">
+            <? foreach ($subject_list as $sbj): ?>
+                <option value="<? echo $sbj['id'] ?>"><? echo $sbj['title'] . " - " . $sbj['id']; ?></option>
+            <? endforeach;?>
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Создать</button>
 </form>

@@ -42,16 +42,9 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
         </div>
     </div>
 
-    <?
-    $crumbs = explode("/",$_SERVER["REQUEST_URI"]);
-    array_pop($crumbs);
-    array_pop($crumbs);
-    ?>
-
+    <br>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <?foreach($crumbs as $crumb): ?>
-            <li class="breadcrumb-item"><a href="#"><? echo $crumb ?></a></li>
-            <?endforeach?>
+            <li class="breadcrumb-item"><a href="<?echo "/" . $activePage . ".php";?>"><? echo $title;?></a></li>
         </ol>
     </nav>

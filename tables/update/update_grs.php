@@ -12,7 +12,13 @@ require_once "../../include/header.php";
 
 //классы
 require_once "../../src/GroupsAndSubjects.php";
+require_once "../../src/Subject.php";
+require_once "../../src/Group.php";
 $grs = new GroupsAndSubjects($db);
+$group = new Group($db);
+$group_list = $group->readAll();
+$subject = new Subject($db);
+$subject_list = $subject->readAll();
 
 if ($_POST['new_group_id'] && $_POST['new_subject_id']) {
 
@@ -27,9 +33,9 @@ if ($_POST['new_group_id'] && $_POST['new_subject_id']) {
         header('Location: http://vladimirov.ivdev.ru/tables/grs.php?');
     }
 }
-else if (isset($_POST['update_id']))
+else if (isset($_GET['update_id']))
 {
-    $grs->id = $_POST['update_id'];
+    $grs->id = $_GET['update_id'];
     $grs->readOne();
 } else {
     die('Критическая ошибка: ID обновляемого объкта отсутствует. ㅇㅅㅇ');
@@ -41,10 +47,18 @@ else if (isset($_POST['update_id']))
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$grs->id}")?>" method="POST">
         <div class="form-group">
             <label >Новое ID группы</label>
-            <input type="text" class="form-control" name="new_group_id" value='<?php echo $grs->group_id; ?>'>
+            <select class="form-control" name="new_group_id">
+                <? foreach ($group_list as $group): ?>
+                    <option value="<? echo $group['id'] ?>"><? echo $group['g_name'] . " - " . $group['id']; ?></option>
+                <? endforeach;?>
+            </select>
 
             <label >Новое ID предмета</label>
-            <input type="text" class="form-control" name="new_subject_id" value='<?php echo $grs->subject_id; ?>'>
+            <select class="form-control" name="new_subject_id">
+                <? foreach ($subject_list as $sbj): ?>
+                    <option value="<? echo $sbj['id'] ?>"><? echo $sbj['title'] . " - " . $sbj['id']; ?></option>
+                <? endforeach;?>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Изменить</button>
     </form>

@@ -1,6 +1,6 @@
 <?php
 //заголовок для этой страницы
-$title = "Рейтинг студентов";
+$title = "Связь: группы-предметы";
 
 //база данных
 require_once "../include/db_connection.php";
@@ -32,10 +32,10 @@ $grs_list = $grs->readAll();
                 <td><? echo $item['group_id'] ?></td>
                 <td><? echo $item['subject_id'] ?></td>
                 <td>
-                    <form method="post" action="/tables/update/update_grs.php/" style="display: inline-block">
+                    <form method="get" action="/tables/update/update_grs.php/" style="display: inline-block">
                         <button type="submit" name="update_id" value="<?echo $item['id'] ?>" class="btn btn-primary">Редактировать</button>
                     </form>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display: inline-block" >
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display: inline-block" >
                         <button type="submit" name="delete_id" value="<?echo $item['id'] ?>" class="btn btn-danger">Удалить</button>
                     </form>
                 </td>

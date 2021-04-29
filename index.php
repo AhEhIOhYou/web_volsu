@@ -11,56 +11,64 @@ $db = $database->getConnection();
 require_once "include/header.php";
 
 //классы
-require_once "src/Subject.php";
+require_once "src/Group.php";
 require_once "src/Rating.php";
-require_once "src/Student.php";
-require_once "src/GroupsAndSubjects.php";
 
-
-$stud = new Student($db);
-$rating = new Rating($db);
-$subj = new GroupsAndSubjects($db);
-
-$subject = new Subject($db);
-$subj_list = $subject->readAll()
+$gr = new Group($db);
+$group_list = $gr->readAll();
 ?>
-
-    <select class='form-control' name='category_id'
-        <option>Выбрать группу...</option>
-
-    <?php foreach ($subj_list as $item) {
-    echo "<option value='". $item['id'] . "'></option>";
-    } ?>
-
-    </select>
-
-
+    <br><br>
+    <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+        <label >Выбери группу</label>
+        <select class="form-control" name="gr_id">
+            <? foreach ($group_list as $group): ?>
+            <option value="<? echo $group['id'] ?>"><? echo $group['g_name']; ?></option>
+            <? endforeach;?>
+        </select>
+        <br>
+        <button type="submit" class="btn btn-primary">Показать рейтинг</button>
+    </form>
+<br>
 <?php
 if (isset($_GET['gr_id'])) {
 
-    $rate_result = $rating->readByGroup(2);
+    $rating = new Rating($db);
+    $rate_result = $rating->readByGroup($_GET['gr_id']);
 
-    foreach ($rate_result as $res) {
-        print_r($res);
-        echo "<br>";
-    }
-    $subj_list = $subj->readByGroup(2);
+    $rate = array();
+    $students = array();
+    $subjects = array();
 
-    echo "<table class='table'>
-        <thead>
-            <tr>
-                <th>Студенты</th>";
-    foreach ($subj_list as $res) {
-        echo "<th>" . $res['title'] . "<th>";
+    $i = 0;
+    foreach ($rate_result as $item) {
+        $students[$i] = $item['name'];
+        $subjects[$i] = $item['title'];
+        $i++;
     }
-    echo "</tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>Имя</th>
-            </tr>
-        </tbody>
-    </table>";
+
+    $subjects = array_unique($subjects);
+    $students = array_unique($students);
+
+    $subjects = array_values($subjects );
+    $students = array_values($students);
+
+    echo "<br>";
+    for ($i = 0; $i < count($students); $i++)
+    {
+        for ($j = 0;$j < count($subjects); $j++)
+        {
+            foreach ($rate_result as $item)
+            {
+                if ($item['name'] == $students[$i] && $item['title'] == $subjects[$j])
+                {
+                    $rate[$i][$j] = $item['val'];
+                }
+            }
+        }
+    }
+
+    require_once "rating.php";
+
 }
 ?>
 

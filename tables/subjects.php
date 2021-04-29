@@ -32,10 +32,10 @@ $subj_list = $mark->readAll();
                 <td><? echo $item['title'] ?></td>
                 <td>
 <!--                    гет запрос-->
-                    <form method="post" action="/tables/update/update_subject.php/" style="display: inline-block">
+                    <form method="get" action="/tables/update/update_subject.php/" style="display: inline-block">
                         <button type="submit" name="update_id" value="<?echo $item['id'] ?>" class="btn btn-primary">Редактировать</button>
                     </form>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display: inline-block" >
+                    <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>" style="display: inline-block" >
                         <button type="submit" name="delete_id" value="<?echo $item['id'] ?>" class="btn btn-danger">Удалить</button>
                     </form>
                 </td>

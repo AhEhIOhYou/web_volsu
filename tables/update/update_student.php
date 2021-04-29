@@ -1,6 +1,6 @@
 <?php
 //заголовок для этой страницы
-$title = "Редактирование группы";
+$title = "Редактирование студента";
 
 //база данных
 require_once "../../include/db_connection.php";
@@ -12,7 +12,10 @@ require_once "../../include/header.php";
 
 //классы
 require_once "../../src/Student.php";
+require_once "../../src/Group.php";
 $student = new Student($db);
+$group = new Group($db);
+$group_list = $group->readAll();
 
 if ($_POST['new_name'] && $_POST['new_group_id']) {
 
@@ -27,9 +30,9 @@ if ($_POST['new_name'] && $_POST['new_group_id']) {
         header('Location: http://vladimirov.ivdev.ru/tables/students.php?');
     }
 }
-else if (isset($_POST['update_id']))
+else if (isset($_GET['update_id']))
 {
-    $student->id = $_POST['update_id'];
+    $student->id = $_GET['update_id'];
     $student->readOne();
 } else {
     die('Критическая ошибка: ID обновляемого объкта отсутствует. ㅇㅅㅇ');
@@ -43,8 +46,12 @@ else if (isset($_POST['update_id']))
             <label >Новое имя студента</label>
             <input type="text" class="form-control" name="new_name" value='<?php echo $student->name; ?>'>
 
-            <label >Новый ID группы студента</label>
-            <input type="text" class="form-control" name="new_group_id" value='<?php echo $student->group_id; ?>'>
+            <label >Новая группа студента и её ID</label>
+            <select class="form-control" name="new_group_id">
+                <? foreach ($group_list as $group): ?>
+                    <option value="<? echo $group['id'] ?>"><? echo $group['g_name'] . " - " . $group['id']; ?></option>
+                <? endforeach;?>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Изменить</button>
     </form>
